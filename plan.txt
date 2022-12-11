@@ -1,0 +1,18 @@
+interface GradeWrapper:
+    description
+    ptsPossible
+    ptsEarned
+    percent
+Grade implements GradeWrapper:
+    description - getter
+    ptsPossible - getter
+    ptsEarned - getter
+    percent - method
+GradeGroup implements GradeWrapper:
+    List[GradeWrapper]
+    ptsPossible (adds up all ptsPossible)
+    ptsEarned (adds up all ptsEarned)
+    percent - method
+    addGrade(String, int, int) - creates and adds new Grade to list
+    addGrade(GradeWrapper) - adds existing Grade/GradeGroup to list
+    to/from JSON
