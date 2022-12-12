@@ -1,6 +1,6 @@
-import GradeWrapper from "./GradeWrapper";
+import IGrade from "./IGrade";
 
-class Grade implements GradeWrapper {
+class Grade implements IGrade {
     private _desc: string;
     private _ptsPossible: number;
     private _ptsEarned: number;

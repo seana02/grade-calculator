@@ -1,9 +1,9 @@
-import GradeWrapper from "./GradeWrapper";
+import IGrade from "./IGrade";
 
-class GradeGroup implements GradeWrapper {
+class GradeGroup implements IGrade {
     private _desc: string;
     private _weight: number;
-    private gradesList: Array<GradeWrapper>;
+    private gradesList: Array<IGrade>;
 
     constructor(desc: string, weight: number = 1) {
         this._desc = desc;
@@ -11,7 +11,7 @@ class GradeGroup implements GradeWrapper {
         this.gradesList = [];
     }
 
-    addGrade(newGrade: GradeWrapper) {
+    addGrade(newGrade: IGrade) {
         this.gradesList.push(newGrade);
     }
     

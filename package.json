@@ -1,5 +1,5 @@
 {
-  "name": "grade-manager",
+  "name": "grade-calculator",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

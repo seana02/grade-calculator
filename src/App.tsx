@@ -13,7 +13,7 @@ class App extends Component {
         console.log(discrete.percent);
         console.log(JSON.stringify(discrete));
         return (
-            <div>Hi</div>
+            <></>
         );
     }
 }
