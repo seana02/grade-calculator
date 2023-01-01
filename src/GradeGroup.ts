@@ -3,25 +3,25 @@ import IGrade from "./IGrade";
 class GradeGroup implements IGrade {
     private _desc: string;
     private _weight: number;
-    private gradesList: Array<IGrade>;
+    private _gradesList: Array<IGrade>;
 
     constructor(desc: string, weight: number = 1) {
         this._desc = desc;
         this._weight = weight;
-        this.gradesList = [];
+        this._gradesList = [];
     }
 
     addGrade(newGrade: IGrade) {
-        this.gradesList.push(newGrade);
+        this._gradesList.push(newGrade);
     }
     
     removeGrade(desc: string) {
-        this.gradesList = this.gradesList.filter(elem => elem.desc !== desc);
+        this._gradesList = this.gradesList.filter(elem => elem.desc !== desc);
     }
 
     get ptsEarned() {
         let sum = 0;
-        this.gradesList.forEach(elem => {
+        this._gradesList.forEach(elem => {
             sum += elem.ptsEarned;
         });
         return sum;
@@ -29,7 +29,7 @@ class GradeGroup implements IGrade {
 
     get ptsPossible() {
         let sum = 0;
-        this.gradesList.forEach(elem => {
+        this._gradesList.forEach(elem => {
             sum += elem.ptsPossible;
         });
         return sum;
@@ -38,7 +38,7 @@ class GradeGroup implements IGrade {
     get percent() {
         let totalPercent = 0;
         let totalWeight = 0;
-        this.gradesList.forEach(elem => {
+        this._gradesList.forEach(elem => {
             if (elem.percent !== -1) {
                 totalPercent += elem.percent * elem.weight;
                 totalWeight += elem.weight;
@@ -66,13 +66,17 @@ class GradeGroup implements IGrade {
         this._weight = w;
     }
 
+    get gradesList() {
+        return this._gradesList;
+    }
+
     toJSON() {
         let template: any = {
             [this._desc]: {
                 weight: this._weight,
             }
         };
-        this.gradesList.forEach(elem => {
+        this._gradesList.forEach(elem => {
             template[this._desc][elem.desc] = elem.toJSON()[elem.desc];
         });
         return template;
