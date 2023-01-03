@@ -116,7 +116,9 @@ code {
 }
 
 #sidebar-plus-svg,
-#sidebar-trash-svg {
+#sidebar-trash-svg,
+#sidebar-close-svg,
+#sidebar-trash-button {
   width: 24px;
   height: 24px;
   border-radius: 4px;
@@ -129,24 +131,45 @@ code {
 }
 
 #sidebar-plus-svg:hover,
-#sidebar-trash-svg:hover {
+#sidebar-trash-svg:hover,
+#sidebar-close-svg:hover {
   transform: translate(-1px, -1px);
   box-shadow: 1px 1px 4px var(--background);
   transition: 300ms;
   cursor: pointer;
 }
 
-#sidebar-trash-svg {
+#sidebar-trash-svg,
+#sidebar-close-svg,
+#sidebar-trash-button {
   color: var(--red);
 }
 
+.sidebar-group-wrapper {
+  display: flex;
+}
+
+.sidebar-group,
+.sidebar-delete-group {
+  margin: 8px 0;
+  padding: 2px;
+}
+
 .sidebar-group {
-  border: 1px var(--background) solid;
+  flex-grow: 1;
   padding: 4px 8px;
+  background-color: var(--background);
+  border: 1px var(--background) solid;
   border-radius: 8px;
   color: var(--white);
-  background-color: var(--background);
-  margin: 8px 0;
+}
+
+.sidebar-delete-group {
+  transform: translate(3px, 1px);
+}
+
+.sidebar-delete-group:hover {
+  cursor: pointer;
 }
 
 #calculator-image,
@@ -211,6 +234,11 @@ code {
   transform: translate(-1px, -1px);
   box-shadow: 1px 1px 3px #1F1F1F;
   cursor: pointer;
+}
+
+.sidebar-group.active {
+  box-shadow: 1px 1px 3px var(--white);
+  transition: 300ms;
 }
 
 .bubble-header {

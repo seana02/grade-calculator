@@ -12,7 +12,6 @@ interface IState {
 
 class App extends Component<{}, IState> {
     private courseGroups: Array<{title: string, courses: Array<GradeGroup>}>;
-    //private courseList: Array<GradeGroup>;
 
     constructor(props: {}) {
         super(props);
@@ -20,15 +19,6 @@ class App extends Component<{}, IState> {
         this.courseGroups = [];
         this.courseGroups.unshift(getSpringSample());
         this.courseGroups.unshift(getFallSample());
-
-        //this.courseList = [];
-        //this.courseList.push(getDiffyQSample());
-        //this.courseList.push(getDiscreteSample());
-
-        /*this.courseList.forEach(c => {
-            console.log(c.percent);
-            console.log(JSON.stringify(c));
-        });*/
 
         this.state = {
             popup: "none",
@@ -57,6 +47,7 @@ class App extends Component<{}, IState> {
                     add={this.activatePopup}
                     remove={this.removeCourseGroup}
                     groupList={this.courseGroups.map(a => a.title)}
+                    activeGroup={this.state.activeGroup}
                     changeActiveGroup={this.changeActiveGroup}
                 />
                 <div className="right-side">
@@ -70,6 +61,9 @@ class App extends Component<{}, IState> {
     }
 
     getCourseBubbles(groupID: number) {
+        if (!this.courseGroups.length) {
+            return <></>;
+        }
         let bubbles: any[] = [];
         this.courseGroups[groupID].courses.forEach(category => {
             bubbles.push(<CourseBubble course={category}/>);
@@ -78,11 +72,21 @@ class App extends Component<{}, IState> {
     }
 
     addCourseGroup() {
-        console.log((document.querySelector('#popup-new-group-input') as HTMLInputElement).value);
+        let name = (document.querySelector('#popup-new-group-input') as HTMLInputElement).value;
+        if (name) {
+            let newGroup = {
+                title: name,
+                courses: [] as GradeGroup[]
+            };
+            this.courseGroups.unshift(newGroup);
+        }
+        this.deactivatePopup();
+        this.setState({ popup: "none" });
     }
 
-    removeCourseGroup() {
-        console.log("remove course group");
+    removeCourseGroup(id: number) {
+        this.courseGroups.splice(id, 1);
+        this.setState({ popup: "none" });
     }
 
     activatePopup() {
