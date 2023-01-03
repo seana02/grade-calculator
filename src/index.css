@@ -2,7 +2,7 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Bree Serif', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -16,6 +16,7 @@ code {
 
 #root {
   --black: #292929;
+  --black2: #1F1F1F;
   --white: #E5F4E3;
   --green: #069E2D;
   --red: #DB504A;
@@ -98,7 +99,7 @@ code {
 #topbar,
 .course-bubble {
   border-radius: 8px;
-  box-shadow: 1px 1px 4px #1F1F1F;
+  box-shadow: 1px 1px 4px var(--black2);
   background-color: var(--black);
 }
 
@@ -172,17 +173,16 @@ code {
   cursor: pointer;
 }
 
+#return-button {
+  cursor: pointer;
+}
+
 #calculator-image,
-#hamburger-menu {
+#return-button-svg {
   width: 28px;
   height: 28px;
   display: inline;
   transform: translateY(5px);
-}
-
-#hamburger-menu {
-  width: 0px;
-  padding-left: 8px;
 }
 
 #center {
@@ -209,15 +209,19 @@ code {
   font-family: 'Bree Serif';
 }
 
-#bubbles {
+#bubbles,
+#main-content {
   margin: 16px;
   padding: 8px;
   margin-bottom: 0;
+  overflow: auto;
+  max-height: calc(100vh - 108px);
+}
+
+#bubbles {
   display: grid;
   grid-template-columns: repeat(auto-fill, 200px);
   gap: 12px;
-  overflow: auto;
-  max-height: calc(100vh - 108px);
 }
 
 .course-bubble {
@@ -232,7 +236,7 @@ code {
 .sidebar-group:hover {
   transition: 300ms;
   transform: translate(-1px, -1px);
-  box-shadow: 1px 1px 3px #1F1F1F;
+  box-shadow: 1px 1px 3px var(--black2);
   cursor: pointer;
 }
 
@@ -262,4 +266,30 @@ code {
   color: var(--black);
 }
 
+#main-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.grade-category {
+  background-color: var(--black2);
+  flex-grow: 1;
+  padding: 4px 8px;
+  color: var(--white);
+  font-size: 18px;
+  border-radius: 8px;
+  margin: 4px 0;
+  display: flex;
+  cursor: pointer;
+}
+
+.grade-category-desc {
+  flex-grow: 1;
+}
+
+.down-arrow-svg {
+  width: 16px;
+  height: 16px;
+  transform: translateY(2px);
+}
 

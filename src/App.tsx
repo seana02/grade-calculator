@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Grade from './Grade';
 import GradeGroup from './GradeGroup';
 import TopBar from './TopBar';
 import CourseBubble from './CourseBubble';
 import Sidebar from './Sidebar';
+import GradeDetails from './GradeDetails';
 
 interface IState {
     popup: string,
     activeGroup: number,
+    activeCourse: number
 }
 
 class App extends Component<{}, IState> {
@@ -22,15 +24,16 @@ class App extends Component<{}, IState> {
 
         this.state = {
             popup: "none",
-            activeGroup: 0
+            activeGroup: 0,
+            activeCourse: 0
         };
 
+        this.getContent = this.getContent.bind(this);
         this.getCourseBubbles = this.getCourseBubbles.bind(this);
         this.addCourseGroup = this.addCourseGroup.bind(this);
         this.removeCourseGroup = this.removeCourseGroup.bind(this);
         this.activatePopup = this.activatePopup.bind(this);
         this.deactivatePopup = this.deactivatePopup.bind(this);
-        this.changeActiveGroup = this.changeActiveGroup.bind(this);
     }
 
 
@@ -48,14 +51,27 @@ class App extends Component<{}, IState> {
                     remove={this.removeCourseGroup}
                     groupList={this.courseGroups.map(a => a.title)}
                     activeGroup={this.state.activeGroup}
-                    changeActiveGroup={this.changeActiveGroup}
+                    changeActiveGroup={(id: number) => this.setState({ activeGroup: id, activeCourse: -1 })}
                 />
                 <div className="right-side">
-                    <TopBar />
-                    <div id="bubbles">
-                        {this.getCourseBubbles(this.state.activeGroup)}
-                    </div>
+                    <TopBar onReturn={() => this.setState({ activeCourse: -1 })}/>
+                    {this.getContent()}
                 </div>
+            </div>
+        );
+    }
+
+    getContent() {
+        if (this.state.activeCourse >= 0) {
+            return (
+                <div id="main-content">
+                    <GradeDetails course={this.courseGroups[this.state.activeGroup].courses[this.state.activeCourse]}/>
+                </div>
+            );
+        }
+        return (
+            <div id="bubbles">
+                {this.getCourseBubbles(this.state.activeGroup)}
             </div>
         );
     }
@@ -65,9 +81,14 @@ class App extends Component<{}, IState> {
             return <></>;
         }
         let bubbles: any[] = [];
-        this.courseGroups[groupID].courses.forEach(category => {
-            bubbles.push(<CourseBubble course={category}/>);
-        });
+        for (let i = 0; i < this.courseGroups[groupID].courses.length; i++) {
+            bubbles.push(
+                <CourseBubble
+                    course={this.courseGroups[groupID].courses[i]}
+                    index={i}
+                    onClick={() => this.setState({ activeCourse: i })}
+                />);
+        }
         return bubbles;
     }
 
@@ -97,10 +118,6 @@ class App extends Component<{}, IState> {
     deactivatePopup() {
         (document.querySelector('#popup-new-group') as HTMLElement).classList.remove('active');
         (document.querySelector('#overlay') as HTMLElement).classList.remove('active');
-    }
-
-    changeActiveGroup(id: number) {
-        this.setState({ activeGroup: id });
     }
 
 }

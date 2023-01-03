@@ -1,14 +1,20 @@
 import { Component } from "react";
 import GradeGroup from './GradeGroup';
 
-class CourseBubble extends Component<{course: GradeGroup}, {}> {
-    constructor(props: {course: GradeGroup}) {
+interface CBProps {
+    course: GradeGroup,
+    index: number
+    onClick: () => void;
+}
+
+class CourseBubble extends Component<CBProps, {}> {
+    constructor(props: CBProps) {
         super(props);
     }
 
     render() {
         return (
-            <div className="course-bubble">
+            <div className="course-bubble" onClick={this.props.onClick}>
                 <div className="bubble-header">
                     {this.props.course.desc}
                 </div>
