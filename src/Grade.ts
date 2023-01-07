@@ -57,6 +57,10 @@ class Grade implements IGrade {
         }
         return this.ptsEarned / this.ptsPossible;
     }
+
+    get gradesList() {
+        return [this];
+    }
     
     toJSON() {
         let obj = {

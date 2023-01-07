@@ -1,5 +1,4 @@
 import { Component } from "react";
-import './index.css';
 
 
 class TopBar extends Component<{ onReturn: () => void; }, {}> {

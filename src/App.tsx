@@ -32,8 +32,11 @@ class App extends Component<{}, IState> {
         this.getCourseBubbles = this.getCourseBubbles.bind(this);
         this.addCourseGroup = this.addCourseGroup.bind(this);
         this.removeCourseGroup = this.removeCourseGroup.bind(this);
+        this.deleteGrade = this.deleteGrade.bind(this);
         this.activatePopup = this.activatePopup.bind(this);
         this.deactivatePopup = this.deactivatePopup.bind(this);
+        this.confirm = this.confirm.bind(this);
+        this.editGrade = this.editGrade.bind(this);
     }
 
 
@@ -43,8 +46,32 @@ class App extends Component<{}, IState> {
                 <div id="overlay" onClick={this.deactivatePopup}></div>
                 <div className="popup" id="popup-new-group">
                     <div className="popup-header">New Group</div>
-                    <input type="text" placeholder="Name" id="popup-new-group-input" />
+                    <input className="popup-input" id="popup-new-group-input" type="text" placeholder="Name" />
                     <div className="popup-submit" id="popup-new-group-submit" onClick={this.addCourseGroup}>Create</div>
+                </div>
+                <div className="popup" id="popup-confirm">
+                    <div className="popup-header">Are you sure?</div>
+                    <div className="popup-flex-wrapper">
+                        <div className="popup-submit" id="popup-confirm-submit">Yes</div>
+                        <div className="popup-submit" id="popup-confirm-cancel" onClick={this.deactivatePopup}>Cancel</div>
+                    </div>
+                </div>
+                <div className="popup" id="popup-grade">
+                    <div className="popup-header">Edit Grade</div>
+                    <div className="popup-flex-wrapper">
+                        <label className="popup-label" id="popup-grade-title-label" htmlFor="popup-grade-title">Name:</label>
+                        <input className="popup-input" id="popup-grade-title" type="text" />
+                    </div>
+                    <div className="popup-flex-wrapper">
+                        <label className="popup-label" id="popup-grade-score-label" htmlFor="popup-grade-score">Score:</label>
+                        <input className="popup-input" id="popup-grade-score" type="number" placeholder="Pts Earned" />
+                        <div id="popup-grade-slash">/</div>
+                        <input className="popup-input" id="popup-grade-max" type="number" placeholder="Pts Possible" />
+                    </div>
+                    <div className="popup-flex-wrapper">
+                        <div className="popup-submit" id="popup-grade-submit">Done</div>
+                        <div className="popup-submit" id="popup-grade-cancel" onClick={this.deactivatePopup}>Cancel</div>
+                    </div>
                 </div>
                 <Sidebar
                     add={this.activatePopup}
@@ -65,7 +92,11 @@ class App extends Component<{}, IState> {
         if (this.state.activeCourse >= 0) {
             return (
                 <div id="main-content">
-                    <GradeDetails course={this.courseGroups[this.state.activeGroup].courses[this.state.activeCourse]}/>
+                    <GradeDetails
+                        course={this.courseGroups[this.state.activeGroup].courses[this.state.activeCourse]}
+                        deleteGrade={this.deleteGrade}
+                        editGrade={this.editGrade}
+                    />
                 </div>
             );
         }
@@ -110,6 +141,30 @@ class App extends Component<{}, IState> {
         this.setState({ popup: "none" });
     }
 
+    deleteGrade(groupID: number, gradeID: number) {
+        this.confirm(() => {
+            (this.courseGroups[this.state.activeGroup].courses[this.state.activeCourse].gradesList[groupID] as GradeGroup).removeGrade(gradeID);
+            this.deactivatePopup();
+            this.setState({ popup: "none" });
+        });
+    }
+
+    editGrade(groupID: number, gradeID: number) {
+        (document.querySelector('#popup-grade') as HTMLElement).classList.add('active');
+        (document.querySelector('#overlay') as HTMLElement).classList.add('active');
+        let grade = this.courseGroups[this.state.activeGroup].courses[this.state.activeCourse].gradesList[groupID].gradesList[gradeID];
+        let title = document.querySelector('#popup-grade-title') as HTMLInputElement;
+        title.value = grade.desc;
+        let earned = document.querySelector('#popup-grade-score') as HTMLInputElement;
+        earned.value = '' + grade.ptsEarned;
+        let max = document.querySelector('#popup-grade-max') as HTMLInputElement;
+        max.value = '' + grade.ptsPossible;
+        const submit = document.querySelector('#popup-grade-submit') as HTMLElement;
+        submit.onclick = () => {
+            
+        };
+    }
+
     activatePopup() {
         (document.querySelector('#popup-new-group') as HTMLElement).classList.add('active');
         (document.querySelector('#overlay') as HTMLElement).classList.add('active');
@@ -117,7 +172,20 @@ class App extends Component<{}, IState> {
 
     deactivatePopup() {
         (document.querySelector('#popup-new-group') as HTMLElement).classList.remove('active');
+        document.querySelectorAll('.popup').forEach(popup => {
+            (popup as HTMLElement).classList.remove('active');
+        });
         (document.querySelector('#overlay') as HTMLElement).classList.remove('active');
+    }
+
+    confirm(callback: Function) {
+        (document.querySelector('#popup-confirm') as HTMLElement).classList.add('active');
+        const submit = document.querySelector('#popup-confirm-submit') as HTMLElement;
+        submit.onclick = () => {
+            callback();
+            submit.onclick = () => {};
+        };
+        (document.querySelector('#overlay') as HTMLElement).classList.add('active');
     }
 
 }
@@ -153,7 +221,7 @@ function getDiffyQSample() {
         new GradeGroup('Final', 31),
     ];
     for (let i = 1; i <= 15; i++) {
-        groups[0].addGrade(new Grade(`HW ${i}`, i === 8 ? 0 : 3, 3, 1));
+        groups[0].addGrade(new Grade(`HW ${(`0` + i).slice(-2)}`, i === 8 ? 0 : 3, 3, 1));
     }
     let quiz: Array<Grade> = [
         new Grade('Quiz 1', 58, 60),
@@ -206,7 +274,7 @@ function getCSSample() {
     csgroups[0].addGrade(new Grade('Participation', 100, 100));
     let cshwt = [0, 100,90,100,91,91,94,97,92,130,91];
     for (let i = 1; i < cshwt.length; i++) {
-        csgroups[1].addGrade(new Grade(`Homework ${i}`, cshwt[i], 100));
+        csgroups[1].addGrade(new Grade(`Homework ${(`0` + i).slice(-2)}`, cshwt[i], 100));
     }
     csgroups[2].addGrade(new Grade('Exam 1', 98, 100));
     csgroups[2].addGrade(new Grade('Midterm 2', 89, 100));

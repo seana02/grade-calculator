@@ -13,10 +13,22 @@ class GradeGroup implements IGrade {
 
     addGrade(newGrade: IGrade) {
         this._gradesList.push(newGrade);
+        this._gradesList.sort((a, b): number => {
+            if (a instanceof GradeGroup) {
+                if (b instanceof GradeGroup) {
+                    return 0;
+                }
+                return -1;
+            }
+            if (b instanceof GradeGroup) {
+                return 1;
+            }
+            return a.desc.localeCompare(b.desc);
+        });
     }
     
-    removeGrade(desc: string) {
-        this._gradesList = this.gradesList.filter(elem => elem.desc !== desc);
+    removeGrade(id: number) {
+        this._gradesList.splice(id, 1);
     }
 
     get ptsEarned() {
