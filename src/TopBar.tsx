@@ -1,8 +1,8 @@
 import { Component } from "react";
 
 
-class TopBar extends Component<{ onReturn: () => void; }, {}> {
-    constructor(props: { onReturn: () => void; }) {
+class TopBar extends Component<{ onReturn: () => void; deleteCourse: () => void }, {}> {
+    constructor(props: { onReturn: () => void; deleteCourse: () => void; }) {
         super(props);
     }
 
@@ -12,6 +12,11 @@ class TopBar extends Component<{ onReturn: () => void; }, {}> {
                 <div id="return-button" onClick={this.props.onReturn}>
                     <svg id="return-button-svg" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M19,7V11H5.83L9.41,7.41L8,6L2,12L8,18L9.41,16.58L5.83,13H21V7H19Z" />
+                    </svg>
+                </div>
+                <div id="delete-course-button" onClick={this.props.deleteCourse}>
+                    <svg id={`delete-course-button-svg`} className="trash-svg" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
                     </svg>
                 </div>
                 <div id="center">

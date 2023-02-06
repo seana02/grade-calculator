@@ -56,12 +56,12 @@ code {
   border-radius: 16px;
   transition: 300ms;
   transform: translate(-50%, -50%) scale(0);
+  z-index: 101;
 }
 
 .popup.active {
   transition: 300ms;
   transform: translate(-50%, -50%) scale(1);
-  z-index: 101;
 }
 
 .popup-header {
@@ -80,10 +80,10 @@ code {
   font-size: 16px;
 }
 
-#popup-new-group-input {
+.popup-new-input {
   margin: 12px 8px;
   box-sizing: border-box;
-  width: 200px;
+  width: calc(100% - 16px);
 }
 
 .popup-submit {
@@ -111,7 +111,7 @@ code {
 .popup-label {
   font-size: 18px;
   margin-right: 8px;
-  width: 60px;
+  width: max(calc(max-content * 3), 60px);
 }
 
 #popup-grade-title {
@@ -149,32 +149,63 @@ code {
 }
 
 #sidebar-plus-svg,
-#sidebar-trash-svg,
-#sidebar-close-svg,
-#sidebar-trash-button {
+#sidebar-trash-button,
+#course-details-header-plus-svg,
+#course-details-header-edit-svg,
+.popup-list-scheme-edit-svg,
+.close-svg,
+.trash-svg {
   width: 24px;
   height: 24px;
   border-radius: 4px;
 }
 
-#sidebar-plus-svg {
+#popup-edit-scheme-plus-svg,
+#popup-list-schemes-plus-svg {
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+}
+
+#sidebar-plus-svg,
+#course-details-header-plus-svg,
+#popup-edit-scheme-plus-svg,
+#popup-list-schemes-plus-svg {
   color: var(--green);
   transition: 300ms;
   margin-right: 2px;
 }
 
 #sidebar-plus-svg:hover,
-#sidebar-trash-svg:hover,
-#sidebar-close-svg:hover {
+#course-details-header-plus-svg:hover,
+#course-details-header-edit-svg:hover,
+.popup-list-scheme-edit-svg:hover,
+.close-svg:hover, 
+.trash-svg:hover,
+#popup-edit-scheme-plus-svg:hover , 
+#popup-list-schemes-plus-svg:hover {
   transform: translate(-1px, -1px);
   box-shadow: 1px 1px 4px var(--background);
   transition: 300ms;
   cursor: pointer;
 }
 
-#sidebar-trash-svg,
+#course-details-header-plus-svg,
+#course-details-header-trash-svg,
+#course-details-header-close-svg,
+#course-details-header-edit-svg {
+  margin: auto 0;
+}
+
+#course-details-header-edit-svg,
+.popup-list-scheme-edit-svg {
+  color: var(--yellow);
+}
+
 #sidebar-close-svg,
-#sidebar-trash-button {
+#sidebar-trash-button,
+.trash-svg,
+.close-svg {
   color: var(--red);
 }
 
@@ -205,16 +236,22 @@ code {
   cursor: pointer;
 }
 
-#return-button {
+#return-button,
+#delete-course-button {
   cursor: pointer;
 }
 
 #calculator-image,
-#return-button-svg {
+#return-button-svg,
+#delete-course-button-svg {
   width: 28px;
   height: 28px;
   display: inline;
   transform: translateY(5px);
+}
+
+#delete-course-button-svg:hover {
+  box-shadow: none;
 }
 
 #center {
@@ -301,6 +338,12 @@ code {
 #main-content {
   display: flex;
   flex-direction: column;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+#main-content::-webkit-scrollbar {
+  display: none;
 }
 
 details > summary:before {
@@ -331,6 +374,10 @@ details[open] > summary:before {
 
 .course-details-header {
   font-size: 24px;
+}
+
+.course-details-header-percent {
+  margin-right: 2px;
 }
 
 .grade-category-header {
@@ -366,6 +413,24 @@ details[open] > summary:before {
   z-index: 0;
   color: var(--white);
   transition: 300ms;
+}
+
+.grade-category-delete-group,
+.grade-category-plus-svg {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  margin: auto 0;
+}
+
+.grade-category-plus-svg {
+  color: var(--green);
+}
+
+.grade-category-trash-button {
+  width: 20px;
+  height: 20px;
+  color: var(--red);
 }
 
 .grade-individual {
@@ -406,5 +471,45 @@ details[open] > summary:before {
 
 .grade-individual-delete-svg:hover {
   color: var(--red);
+}
+
+#popup-edit-scheme .popup-flex-wrapper:first-child {
+  justify-content: center;
+  margin: 4px 0;
+}
+
+#popup-edit-scheme .popup-flex-wrapper {
+  margin: 4px 0;
+  gap: 4px;
+}
+
+.popup-edit-scheme-label {
+  width: 0;
+  flex-grow: 1;
+}
+
+.popup-edit-scheme-input {
+  width: max(52px, 15%);
+  appearance: none;
+  -moz-appearance: textfield;
+}
+
+.popup-edit-scheme-input::-webkit-outer-spin-button,
+.popup-edit-scheme-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#popup-edit-scheme-label-header,
+#popup-edit-scheme-weight-header,
+#popup-edit-scheme-drop-header {
+  text-align: center;
+  padding: 0 16px;
+  width: max(52px, calc(15% + 32px));
+  box-sizing: border-box;
+}
+
+.active-scheme {
+  color: #26F75B;
 }
 

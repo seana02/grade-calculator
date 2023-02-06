@@ -1,8 +1,8 @@
 import { Component } from "react";
-import GradeGroup from './GradeGroup';
+import GradingScheme from "./GradingScheme";
 
 interface CBProps {
-    course: GradeGroup,
+    course: GradingScheme,
     index: number
     onClick: () => void;
 }
@@ -16,7 +16,7 @@ class CourseBubble extends Component<CBProps, {}> {
         return (
             <div className="course-bubble" onClick={this.props.onClick}>
                 <div className="bubble-header">
-                    {this.props.course.desc}
+                    {this.props.course.name}
                 </div>
                 <div className="bubble-summary">
                     {Math.round(this.props.course.percent * 10000) / 100 + '%'}

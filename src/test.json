@@ -1,0 +1,492 @@
+[{
+	"name": "Fall '22",
+	"course": [{
+		"name": "DiffyQ",
+		"gradeGroups": [{
+			"name": "Homework",
+			"gradeList": [{
+				"name": "HW 01",
+				"ptsEarned": 3,
+				"ptsPossible": 3,
+				"weight": 1
+			}, {
+				"name": "HW 02",
+				"ptsEarned": 3,
+				"ptsPossible": 3,
+				"weight": 1
+			}, {
+				"name": "HW 03",
+				"ptsEarned": 3,
+				"ptsPossible": 3,
+				"weight": 1
+			}, {
+				"name": "HW 04",
+				"ptsEarned": 3,
+				"ptsPossible": 3,
+				"weight": 1
+			}, {
+				"name": "HW 05",
+				"ptsEarned": 3,
+				"ptsPossible": 3,
+				"weight": 1
+			}, {
+				"name": "HW 06",
+				"ptsEarned": 3,
+				"ptsPossible": 3,
+				"weight": 1
+			}, {
+				"name": "HW 07",
+				"ptsEarned": 3,
+				"ptsPossible": 3,
+				"weight": 1
+			}, {
+				"name": "HW 08",
+				"ptsEarned": 0,
+				"ptsPossible": 3,
+				"weight": 1
+			}, {
+				"name": "HW 09",
+				"ptsEarned": 3,
+				"ptsPossible": 3,
+				"weight": 1
+			}, {
+				"name": "HW 10",
+				"ptsEarned": 3,
+				"ptsPossible": 3,
+				"weight": 1
+			}, {
+				"name": "HW 11",
+				"ptsEarned": 3,
+				"ptsPossible": 3,
+				"weight": 1
+			}, {
+				"name": "HW 12",
+				"ptsEarned": 3,
+				"ptsPossible": 3,
+				"weight": 1
+			}, {
+				"name": "HW 13",
+				"ptsEarned": 3,
+				"ptsPossible": 3,
+				"weight": 1
+			}, {
+				"name": "HW 14",
+				"ptsEarned": 3,
+				"ptsPossible": 3,
+				"weight": 1
+			}, {
+				"name": "HW 15",
+				"ptsEarned": 3,
+				"ptsPossible": 3,
+				"weight": 1
+			}]
+		}, {
+			"name": "Quizzes",
+			"gradeList": [{
+				"name": "Quiz 1",
+				"ptsEarned": 58,
+				"ptsPossible": 60,
+				"weight": 1
+			}, {
+				"name": "Quiz 2",
+				"ptsEarned": 60,
+				"ptsPossible": 60,
+				"weight": 1
+			}, {
+				"name": "Quiz 3",
+				"ptsEarned": 54,
+				"ptsPossible": 60,
+				"weight": 1
+			}, {
+				"name": "Quiz 4",
+				"ptsEarned": 59,
+				"ptsPossible": 60,
+				"weight": 1
+			}, {
+				"name": "Quiz 5",
+				"ptsEarned": 59,
+				"ptsPossible": 60,
+				"weight": 1
+			}]
+		}, {
+			"name": "Midterms",
+			"gradeList": [{
+				"name": "Midterm 1",
+				"ptsEarned": 76,
+				"ptsPossible": 80,
+				"weight": 1
+			}, {
+				"name": "Midterm 2",
+				"ptsEarned": 80,
+				"ptsPossible": 80,
+				"weight": 1
+			}]
+		}, {
+			"name": "Final",
+			"gradeList": [{
+				"name": "Final",
+				"ptsEarned": 193,
+				"ptsPossible": 200,
+				"weight": 1
+			}]
+		}, {
+			"name": "a",
+			"gradeList": []
+		}],
+		"weights": [{
+			"Homework": 5,
+			"Quizzes": 30,
+			"Midterms": 34,
+			"Final": 31
+		}, {
+			"Homework": 5,
+			"Quizzes": 24,
+			"Midterms": 34,
+			"Final": 37
+		}, {
+			"Homework": 5,
+			"Quizzes": 30,
+			"Midterms": 17,
+			"Final": 37
+		}],
+		"dropCounts": [{
+			"Homework": 0,
+			"Quizzes": 0,
+			"Midterms": 0,
+			"Final": 0
+		}, {
+			"Homework": 0,
+			"Quizzes": 1,
+			"Midterms": 0,
+			"Final": 0
+		}, {
+			"Homework": 0,
+			"Quizzes": 0,
+			"Midterms": 1,
+			"Final": 0
+		}],
+		"numGradingSchemes": 3
+	}, {
+		"name": "Objects and Design",
+		"gradeGroups": [{
+			"name": "Project Setup",
+			"gradeList": [{
+				"name": "Project Setup",
+				"ptsEarned": 55,
+				"ptsPossible": 55,
+				"weight": 1
+			}]
+		}, {
+			"name": "Sprints",
+			"gradeList": [{
+				"name": "Sprint 1",
+				"ptsEarned": 100,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Sprint 2",
+				"ptsEarned": 99,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Sprint 3",
+				"ptsEarned": 98.5,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Sprint 4",
+				"ptsEarned": 98.3,
+				"ptsPossible": 100,
+				"weight": 1
+			}]
+		}, {
+			"name": "Peer Review",
+			"gradeList": [{
+				"name": "Peer Review",
+				"ptsEarned": 2,
+				"ptsPossible": 2,
+				"weight": 1
+			}]
+		}, {
+			"name": "Survey",
+			"gradeList": [{
+				"name": "Survey",
+				"ptsEarned": 1,
+				"ptsPossible": 1,
+				"weight": 1
+			}]
+		}, {
+			"name": "Participation",
+			"gradeList": [{
+				"name": "Participation",
+				"ptsEarned": 92,
+				"ptsPossible": 101,
+				"weight": 1
+			}]
+		}, {
+			"name": "Mini-Assessments",
+			"gradeList": [{
+				"name": "Mini-Assessment 1",
+				"ptsEarned": 95,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Mini-Assessment 2",
+				"ptsEarned": 95,
+				"ptsPossible": 100,
+				"weight": 1
+			}]
+		}, {
+			"name": "Midterm",
+			"gradeList": [{
+				"name": "Midterm",
+				"ptsEarned": 95.25,
+				"ptsPossible": 100,
+				"weight": 1
+			}]
+		}, {
+			"name": "Final",
+			"gradeList": [{
+				"name": "Final",
+				"ptsEarned": 103.15,
+				"ptsPossible": 100,
+				"weight": 1
+			}]
+		}],
+		"weights": [{
+			"Project Setup": 2,
+			"Sprints": 45,
+			"Peer Review": 12,
+			"Survey": 1,
+			"Participation": 5,
+			"Mini-Assessments": 5,
+			"Midterm": 15,
+			"Final": 15
+		}],
+		"dropCounts": [{
+			"Project Setup": 0,
+			"Sprints": 0,
+			"Peer Review": 0,
+			"Survey": 0,
+			"Participation": 0,
+			"Mini-Assessments": 0,
+			"Midterm": 0,
+			"Final": 0
+		}],
+		"numGradingSchemes": 1
+	}]
+}, {
+	"name": "Spring '21",
+	"course": [{
+		"name": "Discrete",
+		"gradeGroups": [{
+			"name": "Participation",
+			"gradeList": [{
+				"name": "Participation",
+				"ptsEarned": 100,
+				"ptsPossible": 100,
+				"weight": 1
+			}]
+		}, {
+			"name": "Quizzes",
+			"gradeList": [{
+				"name": "Quiz 1",
+				"ptsEarned": 8,
+				"ptsPossible": 10,
+				"weight": 1
+			}, {
+				"name": "Quiz 2",
+				"ptsEarned": 10,
+				"ptsPossible": 10,
+				"weight": 1
+			}, {
+				"name": "Quiz 3",
+				"ptsEarned": 8,
+				"ptsPossible": 10,
+				"weight": 1
+			}, {
+				"name": "Quiz 4",
+				"ptsEarned": 9,
+				"ptsPossible": 10,
+				"weight": 1
+			}]
+		}, {
+			"name": "Homeworks",
+			"gradeList": [{
+				"name": "Homework 1",
+				"ptsEarned": 66.5,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Homework 2",
+				"ptsEarned": 91,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Homework 3",
+				"ptsEarned": 97,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Homework 4",
+				"ptsEarned": 97,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Homework 5",
+				"ptsEarned": 74.84,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Homework 6",
+				"ptsEarned": 96.75,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Homework 7",
+				"ptsEarned": 85.5,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Homework 8",
+				"ptsEarned": 90,
+				"ptsPossible": 100,
+				"weight": 1
+			}]
+		}, {
+			"name": "Exams",
+			"gradeList": [{
+				"name": "Final",
+				"ptsEarned": 0,
+				"ptsPossible": 30,
+				"weight": 1
+			}, {
+				"name": "Midterm 1",
+				"ptsEarned": 30,
+				"ptsPossible": 30,
+				"weight": 1
+			}, {
+				"name": "Midterm 2",
+				"ptsEarned": 27,
+				"ptsPossible": 30,
+				"weight": 1
+			}]
+		}],
+		"weights": [{
+			"Participation": 8,
+			"Quizzes": 12,
+			"Homeworks": 20,
+			"Exams": 60
+		}],
+		"dropCounts": [{
+			"Participation": 0,
+			"Quizzes": 1,
+			"Homeworks": 1,
+			"Exams": 1
+		}],
+		"numGradingSchemes": 1
+	}, {
+		"name": "Data Structures and Algorithms",
+		"gradeGroups": [{
+			"name": "Participation",
+			"gradeList": [{
+				"name": "Participation",
+				"ptsEarned": 100,
+				"ptsPossible": 100,
+				"weight": 1
+			}]
+		}, {
+			"name": "Homeworks",
+			"gradeList": [{
+				"name": "Homework 01",
+				"ptsEarned": 100,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Homework 02",
+				"ptsEarned": 90,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Homework 03",
+				"ptsEarned": 100,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Homework 04",
+				"ptsEarned": 91,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Homework 05",
+				"ptsEarned": 91,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Homework 06",
+				"ptsEarned": 94,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Homework 07",
+				"ptsEarned": 97,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Homework 08",
+				"ptsEarned": 92,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Homework 09",
+				"ptsEarned": 130,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Homework 10",
+				"ptsEarned": 91,
+				"ptsPossible": 100,
+				"weight": 1
+			}]
+		}, {
+			"name": "Exams",
+			"gradeList": [{
+				"name": "Exam 1",
+				"ptsEarned": 98,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Exam 2",
+				"ptsEarned": 89,
+				"ptsPossible": 100,
+				"weight": 1
+			}, {
+				"name": "Exam 3",
+				"ptsEarned": 92.5,
+				"ptsPossible": 100,
+				"weight": 1
+			}]
+		}, {
+			"name": "Final",
+			"gradeList": [{
+				"name": "Final",
+				"ptsEarned": 90,
+				"ptsPossible": 100,
+				"weight": 1
+			}]
+		}],
+		"weights": [{
+			"Participation": 2,
+			"Homeworks": 14,
+			"Exams": 60,
+			"Final": 24
+		}],
+		"dropCounts": [{
+			"Participation": 0,
+			"Homeworks": 0,
+			"Exams": 0,
+			"Final": 0
+		}],
+		"numGradingSchemes": 1
+	}]
+}]

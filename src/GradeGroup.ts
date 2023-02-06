@@ -1,18 +1,66 @@
-import IGrade from "./IGrade";
+import { GradeGroupData } from './DataInterfaces';
+import Grade from './Grade';
 
-class GradeGroup implements IGrade {
+class GradeGroup {
     private _desc: string;
-    private _weight: number;
-    private _gradesList: Array<IGrade>;
+    private _gradesList: Array<Grade>;
 
-    constructor(desc: string, weight: number = 1) {
+    constructor(desc: string) {
         this._desc = desc;
-        this._weight = weight;
         this._gradesList = [];
     }
 
-    addGrade(newGrade: IGrade) {
+    public static load(data: GradeGroupData) {
+        let group = new GradeGroup(data.name);
+        console.log(data);
+        data.grades.forEach(gr => {
+            group.addGrade(Grade.load(gr));
+        });
+        return group;
+    }
+
+    addGrade(newGrade: Grade) {
         this._gradesList.push(newGrade);
+        this.sort();
+    }
+    
+    removeGrade(id: number) {
+        this._gradesList.splice(id, 1);
+    }
+
+    get percent() {
+        return this.percentDrop(0);
+    }
+
+    percentDrop(d: number = 0) {
+        let sorted = [...this._gradesList];
+        if (0 < d && d < this._gradesList.length)
+            sorted = sorted.sort((a, b) => a.percent - b.percent);
+        let totalEarned = 0;
+        let totalPossible = 0;
+        for (let i = d; i < sorted.length; i++) {
+            totalEarned += sorted[i].ptsEarned;
+            totalPossible += sorted[i].ptsPossible;
+            //totalPercent += sorted[i].percent * sorted[i].weight;
+            //totalWeight += sorted[i].weight;
+        }
+        //return (totalWeight !== 0 && totalPercent / totalWeight) || 0;
+        return (totalPossible !== 0 && totalEarned / totalPossible) || 0;
+    }
+
+    get desc() {
+        return this._desc;
+    }
+
+    set desc(desc: string) {
+        this._desc = desc;
+    }
+
+    get gradesList() {
+        return this._gradesList;
+    }
+
+    private sort() {
         this._gradesList.sort((a, b): number => {
             if (a instanceof GradeGroup) {
                 if (b instanceof GradeGroup) {
@@ -26,72 +74,16 @@ class GradeGroup implements IGrade {
             return a.desc.localeCompare(b.desc);
         });
     }
-    
-    removeGrade(id: number) {
-        this._gradesList.splice(id, 1);
-    }
-
-    get ptsEarned() {
-        let sum = 0;
-        this._gradesList.forEach(elem => {
-            sum += elem.ptsEarned;
-        });
-        return sum;
-    }
-
-    get ptsPossible() {
-        let sum = 0;
-        this._gradesList.forEach(elem => {
-            sum += elem.ptsPossible;
-        });
-        return sum;
-    }
-
-    get percent() {
-        let totalPercent = 0;
-        let totalWeight = 0;
-        this._gradesList.forEach(elem => {
-            if (elem.percent !== -1) {
-                totalPercent += elem.percent * elem.weight;
-                totalWeight += elem.weight;
-            }
-        });
-        return totalPercent / totalWeight;
-    }
-
-    get desc() {
-        return this._desc;
-    }
-
-    set desc(desc: string) {
-        this._desc = desc;
-    }
-
-    get weight() {
-        return this._weight;
-    }
-
-    set weight(w: number) {
-        if (w <= 0) {
-            throw new Error('Weight must be positive');
-        }
-        this._weight = w;
-    }
-
-    get gradesList() {
-        return this._gradesList;
-    }
 
     toJSON() {
-        let template: any = {
-            [this._desc]: {
-                weight: this._weight,
-            }
-        };
+        let template: any = [];
         this._gradesList.forEach(elem => {
-            template[this._desc][elem.desc] = elem.toJSON()[elem.desc];
+            template.push(elem.toJSON());
         });
-        return template;
+        return {
+            name: this._desc,
+            grades: template
+        };
     }
 
 }

@@ -1,16 +1,18 @@
-import IGrade from "./IGrade";
+import { GradeData } from "./DataInterfaces";
 
-class Grade implements IGrade {
+class Grade {
     private _desc: string;
     private _ptsPossible: number;
     private _ptsEarned: number;
-    private _weight: number;
 
-    constructor(desc: string, ptsEarned: number, ptsPossible: number,  weight: number = 1) {
+    constructor(desc: string, ptsEarned: number, ptsPossible: number) {
         this._desc = desc;
         this._ptsPossible = ptsPossible;
         this._ptsEarned = ptsEarned;
-        this._weight = weight;
+    }
+
+    public static load(data: GradeData) {
+        return new Grade(data.name, data.ptsEarned, data.ptsPossible);
     }
 
     get ptsPossible() {
@@ -29,18 +31,7 @@ class Grade implements IGrade {
     }
 
     set ptsEarned(newPts: number) {
-        this._ptsPossible = newPts;
-    }
-
-    get weight() {
-        return this._weight;
-    }
-
-    set weight(newW: number) {
-        if (newW <= 0) {
-            throw new Error('Weight must be positive');
-        }
-        this._weight = newW;
+        this._ptsEarned = newPts;
     }
 
     get desc() {
@@ -64,11 +55,9 @@ class Grade implements IGrade {
     
     toJSON() {
         let obj = {
-            [this._desc]: {
-                ptsEarned: this._ptsEarned,
-                ptsPossible: this._ptsPossible,
-                weight: this._weight,
-            }
+            name: this._desc,
+            ptsEarned: this._ptsEarned,
+            ptsPossible: this._ptsPossible,
         };
         return obj;
     }
