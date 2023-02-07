@@ -189,7 +189,7 @@ class App extends Component<{}, IState> {
                 {this.getNewPopup(this.addCourseGroup, "new-course-group", "New Course Group")}
                 {this.getNewPopup(this.addCourse, "new-course", "New Course")}
                 {this.getNewPopup(this.addGradeGroup, "new-grade-group", "New Grade Group")}
-                {this.getNewPopup(() => {}, "new-grade", "New Grade")}
+                //{this.getNewPopup(() => {}, "new-grade", "New Grade")}
                 {this.getConfirmationPopup()}
                 {this.getEditGradePopup()}
                 {this.state.activeCourse >= 0 ? this.getSchemeList() : <></>}
@@ -224,9 +224,10 @@ class App extends Component<{}, IState> {
                         remove={(groupID: number) => this.removeGradeGroup(this.state.activeCourse, groupID)}
                         course={this.courseGroups[this.state.activeGroup].courses[this.state.activeCourse]}
                         addGrade={(i: number) => {
-                            this.activatePopup('new-grade');
-                            let popup = document.querySelector('#popup-new-grade-submit');
-                            (popup as HTMLElement).onclick = () => this.addGrade(i);
+                            this.addGrade(i);
+                            //this.activatePopup('new-grade');
+                            //let popup = document.querySelector('#popup-new-grade-submit');
+                            //(popup as HTMLElement).onclick = () => this.addGrade(i);
                         }}
                         deleteGrade={this.deleteGrade}
                         editGrade={this.editGrade}
@@ -388,7 +389,7 @@ class App extends Component<{}, IState> {
     }
 
     /**
-     * Change the values of a specified grade
+     * Populates the edit grade menu
      *
      * @param groupID the index of the grade group to change 
      * @param gradeID the index of the grade to be changed
@@ -403,23 +404,25 @@ class App extends Component<{}, IState> {
         let max = document.querySelector('#popup-grade-max') as HTMLInputElement;
         max.value = '' + grade.ptsPossible;
         const submit = document.querySelector('#popup-grade-submit') as HTMLElement;
-        submit.onclick = () => {
-            if (
-                   title.value
-                && !isNaN(+earned.value)
-                && !isNaN(+max.value)
-            ) {
-                let gradeObj = grade as Grade;
-                gradeObj.desc = title.value;
-                gradeObj.ptsEarned = +earned.value;
-                console.log(earned.value, +earned.value);
-                gradeObj.ptsPossible = +max.value;
-                this.activeCourse.gradesList[groupID].gradesList[gradeID] = gradeObj;
-                this.save();
-            }
-            this.deactivatePopup();
-            this.setState({ popup: "none" });
-        };
+        submit.onclick = () => this.updateGrade(groupID, gradeID, title.value, +earned.value, +max.value);
+    }
+
+    /**
+     * Changes the values of a specified grade to the given values
+     *
+     */
+    updateGrade(groupID: number, gradeID: number, title: string, earned: number, max: number) {
+        let grade = this.activeCourse.gradesList[groupID].gradesList[gradeID];
+        if (title && !isNaN(earned) && !isNaN(max) ) {
+            let gradeObj = grade as Grade;
+            gradeObj.desc = title;
+            gradeObj.ptsEarned = earned;
+            gradeObj.ptsPossible = max;
+            this.activeCourse.gradesList[groupID].updateGrade(gradeID, gradeObj);
+            this.save();
+        }
+        this.deactivatePopup();
+        this.setState({ popup: "none" });
     }
 
     /**
@@ -428,6 +431,7 @@ class App extends Component<{}, IState> {
      * @param groupID the index of the grade group to add a grade to
      */
     addGrade(groupID: number) {
+        /*
         let name = (document.querySelector('#popup-new-grade-input') as HTMLInputElement).value;
         (document.querySelector('#popup-new-grade-input') as HTMLInputElement).value = '';
         if (name) {
@@ -437,6 +441,12 @@ class App extends Component<{}, IState> {
         }
         this.deactivatePopup();
         this.setState({ popup: "none" });
+        */
+        let newGrade = new Grade('New Grade', 0, 100);
+        (this.activeCourse.gradesList[groupID] as GradeGroup).addGrade(newGrade);
+        this.save();
+        this.deactivatePopup();
+        this.editGrade(groupID, this.activeCourse.gradesList[groupID].gradesList.length - 1);
     }
 
     /**
@@ -518,221 +528,5 @@ class App extends Component<{}, IState> {
     }
 
 }
-
-/*
-function getFallSample() {
-    let diffyQ: GradingScheme = getDiffyQSample();
-    let obdes: GradingScheme = getObDesSample();
-
-    let fall = {
-        title: "Fall '22",
-        courses: [diffyQ, obdes],
-    };
-    return fall;
-}
-
-function getSpringSample() {
-    let discrete: GradingScheme = getDiscreteSample();
-    let cs: GradingScheme = getCSSample();
-
-    let spring = {
-        title: "Spring '21",
-        courses: [discrete, cs]
-    }
-    return spring;
-}
-
-function getDiffyQSample() {
-    let weights = [
-        {
-            Homework: 5,
-            Quizzes: 30,
-            Midterms: 34,
-            Final: 31
-        },
-        {
-            Homework: 5,
-            Quizzes: 24,
-            Midterms: 34,
-            Final: 37
-        },
-        {
-            Homework: 5,
-            Quizzes: 30,
-            Midterms: 17,
-            Final: 37
-        },
-    ];
-    let drops = [
-        {
-            Homework: 0,
-            Quizzes: 0,
-            Midterms: 0,
-            Final: 0
-        },
-        {
-            Homework: 0,
-            Quizzes: 1,
-            Midterms: 0,
-            Final: 0
-        },
-        {
-            Homework: 0,
-            Quizzes: 0,
-            Midterms: 1,
-            Final: 0
-        },
-    ];
-    let diffyQ: GradingScheme = new GradingScheme('DiffyQ');
-    for (let i = 0; i < 3; i++) {
-        diffyQ.addGradingScheme(weights[i], drops[i]);
-    }
-    let groups: Array<GradeGroup> = [
-        new GradeGroup('Homework'),
-        new GradeGroup('Quizzes'),
-        new GradeGroup('Midterms'),
-        new GradeGroup('Final'),
-    ];
-    for (let i = 1; i <= 15; i++) {
-        groups[0].addGrade(new Grade(`HW ${(`0` + i).slice(-2)}`, i === 8 ? 0 : 3, 3, 1));
-    }
-    let quiz: Array<Grade> = [
-        new Grade('Quiz 1', 58, 60),
-        new Grade('Quiz 2', 60, 60),
-        new Grade('Quiz 3', 54, 60),
-        new Grade('Quiz 4', 59, 60),
-        new Grade('Quiz 5', 59, 60),
-    ];
-    quiz.forEach(g => groups[1].addGrade(g));
-    groups[2].addGrade(new Grade('Midterm 1', 76, 80, 1));
-    groups[2].addGrade(new Grade('Midterm 2', 80, 80, 1));
-    groups[3].addGrade(new Grade('Final', 193, 200, 1));
-    groups.forEach(gg => diffyQ.addGradeGroup(gg));
-    return diffyQ;
-}
-
-function getDiscreteSample() {
-    let weight = {
-        Participation: 8,
-        Quizzes: 12,
-        Homeworks: 20,
-        Exams: 60,
-    };
-    let drop = {
-        Participation: 0,
-        Quizzes: 1,
-        Homeworks: 1,
-        Exams: 1
-    };
-    let discrete: GradingScheme = new GradingScheme('Discrete');
-    discrete.addGradingScheme(weight, drop);
-    let discretegroups: Array<GradeGroup> = [
-        new GradeGroup('Participation'),
-        new GradeGroup('Quizzes'),
-        new GradeGroup('Homeworks'),
-        new GradeGroup('Exams'),
-    ];
-    discretegroups[0].addGrade(new Grade('Participation', 100, 100, 1));
-    let dquizzes: Array<Grade> = [
-        new Grade('Quiz 1', 8, 10),
-        new Grade('Quiz 2', 10, 10),
-        new Grade('Quiz 3', 8, 10),
-        new Grade('Quiz 4', 9, 10),
-    ];
-    dquizzes.forEach(g => discretegroups[1].addGrade(g));
-    let dhwt = [0, 66.5, 91, 97, 97, 74.84, 96.75, 85.5, 90];
-    for (let i = 1; i < dhwt.length; i++) {
-        discretegroups[2].addGrade(new Grade(`Homework ${i}`, dhwt[i], 100));
-    }
-    discretegroups[3].addGrade(new Grade('Midterm 1', 30, 30));
-    discretegroups[3].addGrade(new Grade('Midterm 2', 27, 30));
-    discretegroups[3].addGrade(new Grade('Final', 0, 30));
-    discretegroups.forEach(gg => discrete.addGradeGroup(gg));
-    return discrete;
-}
-
-function getCSSample() {
-    let weight = {
-        Participation: 2,
-        Homeworks: 14,
-        Exams: 60,
-        Final: 24,
-    };
-    let drop = {
-        Participation: 0,
-        Homeworks: 0,
-        Exams: 0,
-        Final: 0,
-    };
-    let CS: GradingScheme = new GradingScheme('Data Structures and Algorithms');
-    CS.addGradingScheme(weight, drop);
-    let csgroups: Array<GradeGroup> = [
-        new GradeGroup('Participation'),
-        new GradeGroup('Homeworks'),
-        new GradeGroup('Exams'),
-        new GradeGroup('Final'),
-    ];
-    csgroups[0].addGrade(new Grade('Participation', 100, 100));
-    let cshwt = [0, 100,90,100,91,91,94,97,92,130,91];
-    for (let i = 1; i < cshwt.length; i++) {
-        csgroups[1].addGrade(new Grade(`Homework ${(`0` + i).slice(-2)}`, cshwt[i], 100));
-    }
-    csgroups[2].addGrade(new Grade('Exam 1', 98, 100));
-    csgroups[2].addGrade(new Grade('Exam 2', 89, 100));
-    csgroups[2].addGrade(new Grade('Exam 3', 92.5, 100));
-    csgroups[3].addGrade(new Grade('Final', 90, 100));
-    csgroups.forEach(gg => CS.addGradeGroup(gg));
-    return CS;
-}
-
-function getObDesSample() {
-    let weight = {
-        "Project Setup": 2,
-        Sprints: 45,
-        "Peer Review": 12,
-        Survey: 1,
-        Participation: 5,
-        "Mini-Assessments": 5,
-        Midterm: 15,
-        Final: 15,
-    };
-    let drop = {
-        "Project Setup": 0,
-        Sprints: 0,
-        "Peer Review": 0,
-        Survey: 0,
-        Participation: 0,
-        "Mini-Assessments": 0,
-        Midterm: 0,
-        Final: 0,
-    };
-    let obdes: GradingScheme = new GradingScheme('Objects and Design');
-    obdes.addGradingScheme(weight, drop);
-    let obdesgroups: Array<GradeGroup> = [
-        new GradeGroup('Project Setup'),
-        new GradeGroup('Sprints'),
-        new GradeGroup('Peer Review'),
-        new GradeGroup('Survey'),
-        new GradeGroup('Participation'),
-        new GradeGroup('Mini-Assessments'),
-        new GradeGroup('Midterm'),
-        new GradeGroup('Final')
-    ];
-    obdesgroups[0].addGrade(new Grade('Project Setup', 55, 55));
-    let sprints: Array<number> = [100, 99, 98.5, 98.3];
-    for (let i = 0; i < sprints.length; i++) {
-        obdesgroups[1].addGrade(new Grade(`Sprint ${i + 1}`, sprints[i], 100));
-    }
-    obdesgroups[2].addGrade(new Grade('Peer Review', 2, 2));
-    obdesgroups[3].addGrade(new Grade('Survey', 1, 1));
-    obdesgroups[4].addGrade(new Grade('Participation', 92, 101));
-    obdesgroups[5].addGrade(new Grade('Mini-Assessment 1', 95, 100));
-    obdesgroups[5].addGrade(new Grade('Mini-Assessment 2', 95, 100));
-    obdesgroups[6].addGrade(new Grade('Midterm', 95.25, 100));
-    obdesgroups[7].addGrade(new Grade('Final', 103.15, 100));
-    obdesgroups.forEach(gg => obdes.addGradeGroup(gg));
-    return obdes;
-}
-*/
 
 export default App;

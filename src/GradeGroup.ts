@@ -21,11 +21,15 @@ class GradeGroup {
 
     addGrade(newGrade: Grade) {
         this._gradesList.push(newGrade);
-        this.sort();
     }
     
     removeGrade(id: number) {
         this._gradesList.splice(id, 1);
+    }
+
+    updateGrade(id: number, gradeObj: Grade) {
+        this._gradesList[id] = gradeObj;
+        this.sort();
     }
 
     get percent() {
