@@ -8,7 +8,6 @@ import GradeDetails from './GradeDetails';
 import GradingScheme from './GradingScheme';
 import EditSchemePopup from './EditSchemePopup';
 import StorageManager from './StorageManager';
-import { CourseGroupsData } from './DataInterfaces';
 
 interface IState {
     popup: string,
@@ -189,7 +188,7 @@ class App extends Component<{}, IState> {
                 {this.getNewPopup(this.addCourseGroup, "new-course-group", "New Course Group")}
                 {this.getNewPopup(this.addCourse, "new-course", "New Course")}
                 {this.getNewPopup(this.addGradeGroup, "new-grade-group", "New Grade Group")}
-                //{this.getNewPopup(() => {}, "new-grade", "New Grade")}
+                {/*this.getNewPopup(() => {}, "new-grade", "New Grade")*/}
                 {this.getConfirmationPopup()}
                 {this.getEditGradePopup()}
                 {this.state.activeCourse >= 0 ? this.getSchemeList() : <></>}
