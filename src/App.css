@@ -41,11 +41,13 @@ code {
 .svg-pencil:hover {
   transition: 0.2s;
   color: var(--yellow);
+  cursor: pointer;
 }
 
 .trash-svg:hover {
   transition: 0.2s;
   color: var(--red);
+  cursor: pointer;
 }
 
 .overlay {
@@ -184,6 +186,10 @@ code {
   padding: 4px 12px;
 }
 
+.course-group-header:hover {
+    cursor: pointer;
+}
+
 .course-group-grade {
   background: var(--black2);
   font-size: 18px;
@@ -196,7 +202,7 @@ code {
 
 .course-group-grade-right {
   display: flex;
-  width: 15%;
+  width: 10%;
 }
 
 .course-group-grade-fraction {
@@ -217,7 +223,8 @@ code {
   height: 24px;
 }
 
-.course-group-grade-edit-menu {
+.course-group-grade-edit-menu,
+.delete-confirm-menu {
   z-index: 3;
   position: fixed;
   width: 300px;
@@ -226,8 +233,22 @@ code {
   color: var(--white);
   background-color: var(--black);
   padding: 16px;
+  padding-top: 0;
   border-radius: 16px;
   font-size: 24px;
+  transition: 0.3s;
+}
+
+.hidden {
+    transition: 0.3s;
+    scale: 0;
+}
+
+.popup-title {
+    width: 100%;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 28px;
 }
 
 .course-group-grade-edit-menu-name,
@@ -241,6 +262,7 @@ code {
 
 .course-group-grade-edit-menu-grade-left {
   margin: 24px 0px;
+  margin-right: 16px;
 }
 
 .course-group-grade-edit-menu-name-left {
@@ -252,7 +274,18 @@ code {
   padding: 8px;
   border-radius: 16px;
   color: var(--black);
-  flex: 1;
+  flex-grow: 1;
+  text-align: right;
+}
+
+.course-group-grade-edit-menu-grade-right {
+    display: flex;
+    flex-grow: 1;
+}
+
+#course-group-grade-edit-menu-grade-right-possible,
+#course-group-grade-edit-menu-grade-right-earned {
+    width: 76px;
 }
 
 .course-group-grade-edit-menu-grade-right-slash {

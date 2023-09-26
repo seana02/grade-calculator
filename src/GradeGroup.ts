@@ -27,6 +27,10 @@ export default class GradeGroup {
         return this.getGrade(this._grades.length - 1);
     }
 
+    deleteGrade(index: number) {
+        this._grades.splice(index, 1);
+    }
+
     get gradeCount() { return this._grades.length; }
 
     set name(newName: string) {
