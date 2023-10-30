@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './styles/App.css';
 import Data from './Data';
 import SemesterElem from './SemesterElem';
 import CourseElem from './CourseElem';
@@ -77,6 +77,10 @@ class App extends Component<Props, State> {
     return (
       <GradeDetails
         course={this.data.getSemester(this.state.activeSemester).getCourse(this.state.activeCourse)}
+        deleteCourse={() => {
+            this.data.getSemester(this.state.activeSemester).deleteCourse(this.state.activeCourse);
+            this.setState({activeCourse: -1});           
+        }}
       />
     );
   }
@@ -133,6 +137,10 @@ function devData() {
   mathhw.newGrade("Homework 3", 7, 10);
   mathhw.newGrade("Homework 4", 9, 10);
   mathhw.newGrade("Homework 5", 10, 10);
+  first.getCourse(0).newScheme({
+    "Exams": { drop: 0, weight: 2 },
+    "Homework": { drop: 1, weight: 1 },
+  });
   let englProj = first.newCourse("Engl 101").newGradeGroup("Projects");
   englProj.newGrade("Project 1", 88, 100);
   englProj.newGrade("Project 2", 93, 100);
@@ -144,19 +152,18 @@ function devData() {
   let second = data.newSemester("Second");
   let math2hw = second.newCourse("Math 201").newGradeGroup("Homework");
   for (let i = 1; i <= 10; i++) {
-    math2hw.newGrade(`Homework {i}`, 90 + i, 100);
+    math2hw.newGrade(`Homework ${i}`, 90 + i, 100);
   }
   second.getCourse(0).newGradeGroup("Final").newGrade("Final Exam", 97, 100);
   let chemlab = second.newCourse("Chem 101").newGradeGroup("Lab");
   for (let i = 1; i <= 4; i++) {
-    chemlab.newGrade(`Lab {i}`, 100, 100);
+    chemlab.newGrade(`Lab ${i}`, 100, 100);
   }
   let chemexam = second.getCourse(1).newGradeGroup("Exams");
   chemexam.newGrade("Exam 1", 90, 100);
   chemexam.newGrade("Exam 2", 80, 100);
   chemexam.newGrade("Exam 3", 85, 100);
   chemexam.newGrade("Final Exam", 88, 100);
-
 
   return data;
 }

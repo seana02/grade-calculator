@@ -1,4 +1,3 @@
-import Grade from "./Grade";
 import GradeGroup, { regenerateGradeGroup } from "./GradeGroup";
 import GradingScheme, { regenerateScheme } from "./GradingScheme";
 
@@ -44,6 +43,22 @@ export default class Course {
         this._gradeGroups.push(group);
     }
 
+    removeGradeGroup(index: number) {
+        return this._gradeGroups.splice(index, 1)[0];
+    }
+
+    newScheme(sch: {[name: string]: {drop: number, weight: number}}) {
+        this._schemes.push(new GradingScheme(sch));
+    }
+
+    deleteScheme(schemeID: number) {
+        this._schemes.splice(schemeID, 1);
+    }
+
+    getSchemeKeys(schemeID: number) {
+        return this._schemes[schemeID].keys;
+    }
+
     get groupCount() { return this._gradeGroups.length; }
 
     set name(newName: string) {
@@ -51,6 +66,24 @@ export default class Course {
     }
 
     get name() { return this._name; }
+
+    get grade() {
+        let max = 0;
+        this._schemes.forEach(sch => {
+            if (!sch.length) return;
+            let totalWeight = 0;
+            let weightedScore = 0;
+            this._gradeGroups.forEach(g => {
+                let weightInfo = sch.getWeight(g.name) || {weight: 0, drop: 0};
+                weightedScore += g.avgWithDrop(weightInfo.drop) * weightInfo.weight;
+                totalWeight += weightInfo.weight;
+            });
+            if (weightedScore / totalWeight > max) {
+                max = weightedScore/totalWeight;
+            }
+        });
+        return max || this._gradeGroups.reduce((accu, g) => accu + g.avg, 0) / this._gradeGroups.length || 0;
+    }
 }
 
 export function regenerateCourse(json: string) {

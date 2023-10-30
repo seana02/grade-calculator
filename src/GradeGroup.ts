@@ -19,7 +19,7 @@ export default class GradeGroup {
     }
 
     getGrade(gradeID: number): Grade {
-        return this._grades[gradeID];
+        return this._grades[gradeID] || this.newGrade("New Grade", 100, 100);
     }
 
     newGrade(name: string, ptsEarned: number, ptsPossible: number) {
@@ -32,6 +32,24 @@ export default class GradeGroup {
     }
 
     get gradeCount() { return this._grades.length; }
+
+    get avg() {
+        return (this._grades.reduce((accu, nextGrade) => accu + nextGrade.ptsEarned, 0) /
+        this._grades.reduce((accu, nextGrade) => accu + nextGrade.ptsPossible, 0)) || 0;
+    }
+
+    avgWithDrop(drop: number) {
+        let ptsPossible: number = 0;
+        let ptsEarned: number = 0;
+        [...this._grades.keys()]
+            .sort((a,b) => this._grades[b].ptsEarned - this._grades[a].ptsEarned)
+            .slice(0, this._grades.length - drop)
+            .forEach(i => {
+                ptsPossible += this._grades[i].ptsPossible;
+                ptsEarned += this._grades[i].ptsEarned;
+            });
+        return ptsEarned / ptsPossible || 0;
+    }
 
     set name(newName: string) {
         this._name = newName || this._name;

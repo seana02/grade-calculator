@@ -31,6 +31,10 @@ export default class Semester {
         this._courses.push(course);
     }
 
+    deleteCourse(courseID: number) {
+        this._courses.splice(courseID, 1);
+    }
+
     get courseCount() { return this._courses.length; }
 
     set name(newName: string) {

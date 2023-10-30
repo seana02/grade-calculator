@@ -20,7 +20,8 @@ export default class Grade {
     get name() { return this._name; }
     get ptsEarned() { return this._ptsEarned; }
     get ptsPossible() { return this._ptsPossible; }
-    get percent() { return Math.round(10000 * this.ptsEarned / this.ptsPossible) / 100 + "%"; }
+    //get percent() { return Math.round(10000 * (this.ptsEarned / this.ptsPossible || 0)) / 100 + "%"; }
+    get percent() { return (this.ptsEarned / this.ptsPossible * 100 || 0).toFixed(2) + "%"; }
 
     set name(newName: string) {
         this._name = newName || this._name;

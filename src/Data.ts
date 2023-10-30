@@ -31,8 +31,6 @@ export default class Data {
 }
 
 
-
-
 function loadExistingData() {
     if (typeof(Storage) == 'undefined' || !localStorage.data) {
         return null;
