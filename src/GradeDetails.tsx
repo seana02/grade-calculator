@@ -6,10 +6,12 @@ import TrashSVG from "./svg/TrashSVG";
 import PlusSVG from "./svg/PlusSVG";
 import Grade from "./Grade";
 import DeleteConfirmationMenu from "./DeleteConfirmationMenu";
+import Overlay from "./Overlay";
 
 interface GDProps {
     course: Course,
-    deleteCourse: () => void
+    deleteCourse: () => void,
+    commit: () => void,
 }
 
 interface GDState {
@@ -30,7 +32,7 @@ export default class GradeDetails extends Component<GDProps, GDState> {
             deleting: [-1, -1],
             activeCourseButton: 0,
             scheme: -1,
-            schemeBlanks: 1,
+            schemeBlanks: 0,
         }
 
         this.getGroupInfo = this.getGroupInfo.bind(this);
@@ -84,7 +86,7 @@ export default class GradeDetails extends Component<GDProps, GDState> {
     getOverlay() {
         if (this.state.editing[0] >= 0 || this.state.deleting[0] >= 0 || this.state.activeCourseButton || this.state.scheme >= 0) {
             return (
-                <div className="overlay grade-details" onClick={this.resetState}></div>
+                <Overlay resetState={this.resetState} />
             );
         }
         return <></>;
@@ -147,7 +149,7 @@ export default class GradeDetails extends Component<GDProps, GDState> {
                 )
             }
         }
-        for (let i = 0; i < this.state.schemeBlanks; i++) {
+        for (let i = 0; i < this.state.schemeBlanks || content.length === 0; i++) {
             content.push(
                 <div className="course-scheme-info-menu-text course-scheme-info-menu-row">
                     <div id={`scheme-${this.props.course.schemeCount}-group`} className="editable" contentEditable={true}></div>
@@ -259,6 +261,7 @@ export default class GradeDetails extends Component<GDProps, GDState> {
             document.getElementsByClassName(namePrefix + "name-right")?.item(0)?.textContent || "",
             []
         ));
+        this.props.commit();
         this.resetState();
     }
 
@@ -268,6 +271,7 @@ export default class GradeDetails extends Component<GDProps, GDState> {
         gradeObj.name = document.getElementsByClassName(namePrefix + "name-right")?.item(0)?.textContent || gradeObj.name;
         gradeObj.ptsPossible = +(document.getElementById(namePrefix + "grade-right-possible")?.textContent || gradeObj.ptsPossible) || gradeObj.ptsPossible;
         gradeObj.ptsEarned = +(document.getElementById(namePrefix + "grade-right-earned")?.textContent || gradeObj.ptsEarned) || gradeObj.ptsEarned;
+        this.props.commit();
         this.resetState();
     }
     
@@ -283,16 +287,19 @@ export default class GradeDetails extends Component<GDProps, GDState> {
             }
         }
         this.props.course.getScheme(this.state.scheme).updateScheme(newScheme);
+        this.props.commit();
         this.resetState();
     }
 
     deleteGrade() {
         this.props.course.getGradeGroup(this.state.deleting[0]).deleteGrade(this.state.deleting[1]);
+        this.props.commit();
         this.resetState();
     }
 
     deleteGradeGroup() {
         this.props.course.removeGradeGroup(this.state.deleting[0]);
+        this.props.commit();
         this.resetState();
     }
 
@@ -338,7 +345,7 @@ export default class GradeDetails extends Component<GDProps, GDState> {
             editing: [-1, -1],
             activeCourseButton: 0,
             scheme: -1,
-            schemeBlanks: 1
+            schemeBlanks: 0
         });
         let newGroupName = document.getElementById("course-new-group-name")
         if (newGroupName) {

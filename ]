@@ -37,9 +37,6 @@ code {
 .svg-plus {
   padding: 2px 0 0 0;
   transition: 0.2s;
-  padding: 0;
-  width: 24px;
-  height: 24px;
 }
 
 .svg-pencil:hover {
@@ -83,17 +80,6 @@ code {
   padding: 12px;
 }
 
-.semester-element-wrapper {
-    display: flex;
-    align-items: center;
-}
-
-.semester-element-wrapper .svg-trash {
-    margin-left: 4px;
-    width: 28px;
-    height: 28px;
-}
-
 .semester {
   background: var(--background);
   color: var(--white);
@@ -102,7 +88,6 @@ code {
   margin: 8px 0;
   padding: 4px 8px;
   transition: 0.3s;
-  flex-grow: 1;
 }
 
 .semester.selected {
@@ -114,20 +99,6 @@ code {
   transition: 0.3s;
   translate: -3px -3px;
   cursor: pointer;
-}
-
-#semester-svg {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 16px;
-}
-
-#semester-svg .svg-plus {
-    color: var(--green);
-}
-
-#semester-svg .svg-trash {
-    color: var(--red);
 }
 
 #right-wrapper {
@@ -254,6 +225,12 @@ code {
     align-items: center;
 }
 
+.course-group-header-svg * {
+    padding: 0;
+    width: 24px;
+    height: 24px;
+}
+
 .course-group-header:hover {
     cursor: pointer;
 }
@@ -287,6 +264,13 @@ code {
   text-align: right;
   margin: 0 12px;
   width: 4rem;
+}
+
+.course-group-grade-edit,
+.course-group-grade-delete {
+  padding: 0;
+  width: 24px;
+  height: 24px;
 }
 
 .menu {
@@ -387,7 +371,7 @@ code {
 }
 
 .name-right {
-    margin: 4px 0 12px 0;
+    margin: 16px 0;
 }
 
 .name, 

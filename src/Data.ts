@@ -26,6 +26,10 @@ export default class Data {
         return this._data[semesterID];
     }
 
+    deleteSemester(semesterID: number) {
+        this._data.splice(semesterID, 1);
+    }
+
     get semesterCount() { return this._data.length; }
 
 }
