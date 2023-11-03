@@ -7,6 +7,7 @@ import PlusSVG from "./svg/PlusSVG";
 import Grade from "./Grade";
 import DeleteConfirmationMenu from "./DeleteConfirmationMenu";
 import Overlay from "./Overlay";
+import PasteSVG from "./svg/PasteSVG";
 
 interface GDProps {
     course: Course,
@@ -73,6 +74,11 @@ export default class GradeDetails extends Component<GDProps, GDState> {
                         {(this.props.course.grade * 100).toFixed(2) + "%"}
                     </div>
                     <div className="course-header-svg">
+                        <PasteSVG onclick={() => {
+                            console.log("For 90: " + this.props.course.getFinalNeededFor(90));
+                            console.log("For 80: " + this.props.course.getFinalNeededFor(80));
+                            console.log("For 70: " + this.props.course.getFinalNeededFor(70));
+                        }} />
                         <PlusSVG onclick={ () =>  this.setState({activeCourseButton: 1}) } />
                         <EditSVG onclick={ () => this.setState({activeCourseButton: 2}) } />
                         <TrashSVG onclick={ () => this.setState({activeCourseButton: 3}) } deleting={false} onclose={() => {}} />
@@ -269,8 +275,8 @@ export default class GradeDetails extends Component<GDProps, GDState> {
         let namePrefix: string = "course-group-grade-edit-menu-";
         let gradeObj: Grade = this.props.course.getGradeGroup(this.state.editing[0]).getGrade(this.state.editing[1]);
         gradeObj.name = document.getElementsByClassName(namePrefix + "name-right")?.item(0)?.textContent || gradeObj.name;
-        gradeObj.ptsPossible = +(document.getElementById(namePrefix + "grade-right-possible")?.textContent || gradeObj.ptsPossible) || gradeObj.ptsPossible;
-        gradeObj.ptsEarned = +(document.getElementById(namePrefix + "grade-right-earned")?.textContent || gradeObj.ptsEarned) || gradeObj.ptsEarned;
+        gradeObj.ptsPossible = +(document.getElementById(namePrefix + "grade-right-possible")?.textContent || gradeObj.ptsPossible);
+        gradeObj.ptsEarned = +(document.getElementById(namePrefix + "grade-right-earned")?.textContent || gradeObj.ptsEarned);
         this.props.commit();
         this.resetState();
     }

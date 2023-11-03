@@ -34,7 +34,8 @@ code {
 
 .svg-pencil,
 .svg-trash,
-.svg-plus {
+.svg-plus,
+.svg-paste {
   padding: 2px 0 0 0;
   transition: 0.2s;
   padding: 0;
@@ -42,22 +43,34 @@ code {
   height: 24px;
 }
 
+.svg-paste {
+    width: 32px;
+    height: 32px;
+    margin-left: 8px;
+}
+
+.svg-pencil:hover,
+.svg-trash:hover,
+.svg-plus:hover,
+.svg-paste:hover {
+    transition: 0.2s;
+    cursor: pointer;
+}
+
 .svg-pencil:hover {
-  transition: 0.2s;
   color: var(--yellow);
-  cursor: pointer;
 }
 
 .svg-trash:hover {
-  transition: 0.2s;
   color: var(--red);
-  cursor: pointer;
 }
 
 .svg-plus:hover {
-    transition: 0.2s;
     color: var(--green);
-    cursor: pointer;
+}
+
+.svg-paste:hover {
+    color: var(--yellow);
 }
 
 .overlay {

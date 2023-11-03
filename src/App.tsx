@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import './styles/App.css';
 import Data from './Data';
 import SemesterElem from './SemesterElem';
@@ -94,7 +94,10 @@ class App extends Component<Props, State> {
     newSemesterSubmit() {
         this.data.newSemester(document.getElementById("semester-new-name")?.textContent || "");
         this.data.commit();
-        this.resetState();
+        this.setState({
+            activeSemester: this.data.semesterCount - 1,
+            adding: 0
+        });
     }
 
     getCourses() {
