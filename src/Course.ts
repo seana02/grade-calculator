@@ -95,10 +95,10 @@ export default class Course {
         let finalIndex = -1;
         for (let i = 0; i < this._gradeGroups.length; i++) {
             if (finalIndex === -1) {
-                if (this._schemes[this._maxSchemeInd].getWeight(this._gradeGroups[i].name).weight) {
+                if (this._schemes[this._maxSchemeInd]?.getWeight(this._gradeGroups[i].name)?.weight) {
                     finalIndex = i;
                 }
-            } else if (this._schemes[this._maxSchemeInd].getWeight(this._gradeGroups[i].name).weight > this._schemes[this._maxSchemeInd].getWeight(this._gradeGroups[finalIndex].name).weight) {
+            } else if (this._schemes[this._maxSchemeInd]?.getWeight(this._gradeGroups[i].name)?.weight > this._schemes[this._maxSchemeInd]?.getWeight(this._gradeGroups[finalIndex]?.name)?.weight) {
                 finalIndex = i;
             }
         }
@@ -109,6 +109,8 @@ export default class Course {
     }
     
     getFinalNeededFor(grade: number) {
+        // if this._gradeGroups.length === 0 return 0
+        if (this._gradeGroups.length === 0) { return this._gradeGroups.length.toFixed(2); }
         grade /= 100;
         let finalIndex = this.getFinalIndex();
         if (this._maxSchemeInd >= 0) {

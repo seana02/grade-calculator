@@ -35,11 +35,11 @@ class App extends Component<Props, State> {
             deleteConfirm: -1
         };
 
-        //this.data = new Data();
+        this.data = new Data();
         /*
          * Dev data initialization
         */
-        this.data = data1();
+        //this.data = data1();
 
         this.getLeftColumn = this.getLeftColumn.bind(this);
         this.getTitleBar = this.getTitleBar.bind(this);
@@ -142,7 +142,7 @@ class App extends Component<Props, State> {
                     this.data.commit();
                     this.setState({ activeCourse: -1 });
                 }}
-                commit={this.data.commit}
+                commit={() => this.data.commit()}
             />
         );
     }

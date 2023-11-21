@@ -4,13 +4,13 @@ export default class Data {
     private _data: Semester[];
 
     constructor () {
-        //this._data = loadExistingData() || [];
-        this._data = [];
+        this._data = loadExistingData() || [];
     }
 
     commit() {
-        //localStorage.data = JSON.stringify({data: this._data});
-        console.log("Dev data not saved");
+        console.log(this._data);
+        localStorage.data = JSON.stringify({data: this._data});
+        //console.log("Dev data not saved");
     }
 
     newSemester(name: string) {
@@ -44,7 +44,7 @@ function loadExistingData() {
     let semesters: Semester[] = [];
 
     obj.data.forEach((semJson: string) => {
-        semesters.push(regenerateSemester(semJson));
+        semesters.push(regenerateSemester(JSON.stringify(semJson)));
     });
 
     return semesters;
