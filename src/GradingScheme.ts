@@ -23,7 +23,7 @@ export default class GradingScheme {
     }
 
     getWeight(groupName: string): {drop: number, weight: number} {
-        return this._scheme[groupName];
+        return this._scheme[groupName] || { drop: 0, weight: 0 };
     }
 
     get weightCount() { return this._scheme.length; }

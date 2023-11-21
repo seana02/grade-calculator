@@ -39,7 +39,7 @@ class App extends Component<Props, State> {
         /*
          * Dev data initialization
         */
-        this.data = devData();
+        this.data = data1();
 
         this.getLeftColumn = this.getLeftColumn.bind(this);
         this.getTitleBar = this.getTitleBar.bind(this);
@@ -210,8 +210,127 @@ class App extends Component<Props, State> {
 
 export default App;
 
+function data1() {
+    let data = new Data();
+    let f21 = data.newSemester("Fall '21");
+    let eng2first = f21.newCourse("English II").newGradeGroup("First Week Video");
+    eng2first.newGrade("1. First Week Video", 93, 100);
+    eng2first.newGrade("2. Reflection", 15, 15);
+    eng2first.newGrade("3. Roll Call Attendance", 100, 100);
+    let eng2ai = f21.getCourse(0).newGradeGroup("AI Timeline");
+    eng2ai.newGrade("1. Brainstorm", 10, 10);
+    eng2ai.newGrade("2. Draft", 20, 20);
+    eng2ai.newGrade("3. AI Timeline Final", 93, 100);
+    eng2ai.newGrade("4. Reflection", 15, 15);
+    let eng2pitch = f21.getCourse(0).newGradeGroup("Film Pitch");
+    eng2pitch.newGrade("1. Proposal", 10, 10);
+    eng2pitch.newGrade("2. Draft", 20, 20);
+    eng2pitch.newGrade("3. Film Pitch Final", 93, 100);
+    eng2pitch.newGrade("4. Reflection", 15, 15);
+    let eng2trail = f21.getCourse(0).newGradeGroup("Film Trailer");
+    eng2trail.newGrade("1. Collaboration Plan", 10, 10);
+    eng2trail.newGrade("2. Storyboard", 20, 20);
+    eng2trail.newGrade("3. Film Trailer Final", 94, 100);
+    eng2trail.newGrade("4. Reflection", 15, 15);
+    f21.getCourse(0).newGradeGroup("Final Portfolio").newGrade("Final Portfolio", 485, 500);
+    f21.getCourse(0).newGradeGroup("Participation").newGrade("Participation", 92, 100);
+    f21.getCourse(0).newScheme({
+       "First Week Video": { weight: 5, drop: 0 },
+       "AI Timeline": { weight: 15, drop: 0 },
+       "Film Pitch": { weight: 25, drop: 0 },
+       "Film Trailer": { weight: 25, drop: 0 },
+       "Final Portfolio": { weight: 20, drop: 0 },
+       "Participation": { weight: 10, drop: 0 }
+    });
 
-function devData() {
+    let linhw = f21.newCourse("Linear Algebra w/ Abstract Vector Spaces").newGradeGroup("Homework");
+    let linhwlist = [0, 28, 30, 29, 40, 26, 29, 30, 28];
+    for (let i = 1; i <= 8; i++) {
+        linhw.newGrade(`HW ${i}`, linhwlist[i], linhwlist[i] == 40 ? 40 : 30);
+    }
+    let linex = f21.getCourse(1).newGradeGroup("Exams");
+    linex.newGrade("Exam 1", 98, 100);
+    linex.newGrade("Exam 2", 100, 100);
+    linex.newGrade("Exam 3", 100, 100);
+    f21.getCourse(1).newGradeGroup("Exam 4").newGrade("Exam 4", 98, 100);
+    let linexams = f21.getCourse(1).newGradeGroup("All Exams");
+    linexams.newGrade("Exam 1", 98, 100);
+    linexams.newGrade("Exam 2", 100, 100);
+    linexams.newGrade("Exam 3", 100, 100);
+    linexams.newGrade("Exam 4", 98, 100);
+    f21.getCourse(1).newGradeGroup("Final").newGrade("Final", 0, 100);
+    f21.getCourse(1).newScheme({
+        "Homework": { weight: 10, drop: 0 },
+        "Exams": { weight: 60, drop: 1 },
+        "Exam 4": { weight: 30, drop: 0 },
+        "Final": { weight: 0, drop: 0 }
+    });
+    f21.getCourse(1).newScheme({
+        "Homework": { weight: 0, drop: 0 },
+        "All Exams": { weight: 50, drop: 2 },
+        "Final": { weight: 50, drop: 0 }
+    });
+
+    let ooppe = f21.newCourse("Intro to OOP").newGradeGroup("Programming Exercises");
+    ooppe.newGrade("PE 1", 100, 100);
+    ooppe.newGrade("PE 2", 100, 100);
+    ooppe.newGrade("PE 3", 100, 100);
+    ooppe.newGrade("PE 4", 100, 100);
+    ooppe.newGrade("PE 5 (optional)", 0, 100);
+    ooppe.newGrade("PE 6 (optional)", 0, 100);
+    let oophw = f21.getCourse(2).newGradeGroup("Homeworks");
+    oophw.newGrade("Homework 1", 97.5, 100);
+    oophw.newGrade("Homework 2", 100, 100);
+    oophw.newGrade("Homework 3", 98, 100);
+    oophw.newGrade("Homework 4", 99, 100);
+    oophw.newGrade("Homework 5", 100, 100);
+    oophw.newGrade("Homework 6", 100, 100);
+    oophw.newGrade("Homework 7", 94, 100);
+    oophw.newGrade("Homework 8", 100, 100);
+    oophw.newGrade("Homework 9 (optional)", 94.5, 100);
+    oophw.newGrade("JavaFX Activity", 100, 100);
+    let oopex = f21.getCourse(2).newGradeGroup("Exams");
+    oopex.newGrade("Exam 1", 94, 100);
+    oopex.newGrade("Exam 2", 92, 100);
+    oopex.newGrade("Exam 3", 90, 100);
+    f21.getCourse(2).newGradeGroup("Final").newGrade("Final Exam", 91, 101);
+    f21.getCourse(2).newGradeGroup("Participation").newGrade("Participation", 95, 95);
+    f21.getCourse(2).newScheme({
+        "Programming Exercises": { weight: 10, drop: 2 },
+        "Homework": { weight: 20, drop: 1 },
+        "Exams": { weight: 45, drop: 0 },
+        "Final": { weight: 20, drop: 0 },
+        "Participation": { weight: 5, drop: 0 }
+    });
+
+    f21.newCourse("Freshman Leap Seminar").newGradeGroup("StrengthQuest").newGrade("StrengthQuest Assessment", 15, 15);
+    f21.getCourse(3).newGradeGroup("Resume").newGrade("Resume Final Draft", 150, 150);
+    f21.getCourse(3).newGradeGroup("Ethics Reflection").newGrade("Ethics Reflection", 100, 100);
+    f21.getCourse(3).newGradeGroup("Threads Presentation").newGrade("Threads Presentation", 250, 250);
+    f21.getCourse(3).newGradeGroup("Career Reflection").newGrade("Career Reflection", 250, 250);
+    let flsp = f21.getCourse(3).newGradeGroup("Participation");
+    flsp.newGrade("Freebie Participation", 15, 0);
+    flsp.newGrade("Week 2", 15, 15);
+    flsp.newGrade("Week 3", 15, 15);
+    flsp.newGrade("Week 4", 25, 25);
+    flsp.newGrade("Week 6", 25, 25);
+    flsp.newGrade("Week 7", 15, 15);
+    flsp.newGrade("Week 8", 15, 15);
+    flsp.newGrade("Week 9", 15, 15);
+    f21.getCourse(3).newScheme({
+        "StrengthQuest": { weight: 5, drop: 0 },
+        "Resume": { weight: 15, drop: 0 },
+        "Ethics Reflection": { weight: 10, drop: 0 },
+        "Threads Presentation": { weight: 25, drop: 0 },
+        "Career Reflection": { weight: 25, drop: 0 },
+        "Participation": { weight: 20, drop: 0 }
+    });
+
+    return data;
+    //let s22 = data.newSemester("Spring '22");
+}
+
+function data2() {
     let data = new Data();
     let first = data.newSemester("First");
     let mathexam = first.newCourse("Math 101").newGradeGroup("Exams");

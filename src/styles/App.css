@@ -305,7 +305,7 @@ code {
 .menu {
   z-index: 3;
   position: fixed;
-  width: 300px;
+  width: 350px;
   top: 30%;
   left: calc(50% - 150px);
   color: var(--white);
@@ -329,7 +329,8 @@ code {
     font-size: 28px;
 }
 
-.course-scheme-list-menu-row {
+.course-scheme-list-menu-row,
+.course-final-calculator-menu-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -349,8 +350,8 @@ code {
     width: 33px;
 }
 
-.course-scheme-list-menu-row.active {
-    color: var(--green);
+.course-scheme-list-menu-row-text.active-scheme {
+    color: var(--yellow);
 }
 
 .course-scheme-info-menu {
@@ -456,4 +457,12 @@ code {
 
 .buttons div:hover {
   cursor: pointer;
+}
+
+.course-final-calculator-menu-row {
+    justify-content: space-around;
+}
+
+.course-final-calculator-menu .editable {
+    flex-grow: 0;
 }

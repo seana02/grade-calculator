@@ -51,6 +51,7 @@ export default class GradeDetails extends Component<GDProps, GDState> {
         this.schemeSubmit = this.schemeSubmit.bind(this);
         this.deleteGrade = this.deleteGrade.bind(this);
         this.deleteGradeGroup = this.deleteGradeGroup.bind(this);
+        this.getFinalCalculatorMenu = this.getFinalCalculatorMenu.bind(this);
     }
 
     render() {
@@ -68,17 +69,14 @@ export default class GradeDetails extends Component<GDProps, GDState> {
                 {this.getDeleteConfirmationMenu()}
                 {this.getSchemeList()}
                 {this.getSchemeInfo()}
+                {this.getFinalCalculatorMenu()}
                 <div id="course-header">
                     {this.props.course.name}
                     <div className="course-header-grade">
                         {(this.props.course.grade * 100).toFixed(2) + "%"}
                     </div>
                     <div className="course-header-svg">
-                        <PasteSVG onclick={() => {
-                            console.log("For 90: " + this.props.course.getFinalNeededFor(90));
-                            console.log("For 80: " + this.props.course.getFinalNeededFor(80));
-                            console.log("For 70: " + this.props.course.getFinalNeededFor(70));
-                        }} />
+                        <PasteSVG onclick={() => this.setState({activeCourseButton : 4})} />
                         <PlusSVG onclick={ () =>  this.setState({activeCourseButton: 1}) } />
                         <EditSVG onclick={ () => this.setState({activeCourseButton: 2}) } />
                         <TrashSVG onclick={ () => this.setState({activeCourseButton: 3}) } deleting={false} onclose={() => {}} />
@@ -121,7 +119,7 @@ export default class GradeDetails extends Component<GDProps, GDState> {
         for (let i = 0; i < this.props.course.schemeCount; i++) {
             content.push(
                 <div className="course-scheme-list-menu-row">
-                    <div className="course-scheme-list-menu-row-text">{`Scheme ${i+1}`}</div>
+                    <div className={"course-scheme-list-menu-row-text" + (i === this.props.course.maxSchemeInd ? " active-scheme" : "")}>{`Scheme ${i+1}`}</div>
                     <div className="course-scheme-list-menu-row-svg">
                         <EditSVG onclick={() => this.setState({scheme: i, activeCourseButton: 0})} />
                         <TrashSVG onclick={() => {this.props.course.deleteScheme(i); this.setState({activeCourseButton: 2})}} deleting={false} onclose={() => {}} />
@@ -261,6 +259,31 @@ export default class GradeDetails extends Component<GDProps, GDState> {
         return <DeleteConfirmationMenu onconfirm={this.deleteGrade} oncancel={this.resetState} hidden={this.state.deleting[0] === -1} />
     }
 
+    getFinalCalculatorMenu() {
+        return (
+            <div className={"course-final-calculator-menu menu" + (this.state.activeCourseButton === 4 ? "" : " hidden")}>
+                <div className={"popup-title"}>Final Grade Needed For...</div>
+                <div className={"course-final-calculator-menu-row"}>
+                    <div className={"course-final-calculator-menu-left"}>90</div>
+                    <div className={"course-final-calculator-menu-right"}>{this.props.course.getFinalNeededFor(90)}</div>
+                </div>
+                <div className={"course-final-calculator-menu-row"}>
+                    <div className={"course-final-calculator-menu-left"}>80</div>
+                    <div className={"course-final-calculator-menu-right"}>{this.props.course.getFinalNeededFor(80)}</div>
+                </div>
+                <div className={"course-final-calculator-menu-row"}>
+                    <div className={"course-final-calculator-menu-left editable"} contentEditable={true} onKeyDown={
+                        e => { if (this.badKey(e.key)) { e.preventDefault(); }
+                    }} onInput={_ => {
+                        document.querySelector('.course-final-calculator-menu-set')!.textContent =
+                            this.props.course.getFinalNeededFor(Number.parseFloat(document.querySelector('.course-final-calculator-menu-left.editable')!.textContent!));
+                    }}>70</div>
+                    <div className={"course-final-calculator-menu-right course-final-calculator-menu-set"}>{this.props.course.getFinalNeededFor(70)}</div>
+                </div>
+            </div>
+        );
+    }
+
     newGroupSubmit() {
         let namePrefix: string = "course-group-new-menu-";
         this.props.course.addGradeGroup(new GradeGroup(
@@ -332,7 +355,7 @@ export default class GradeDetails extends Component<GDProps, GDState> {
                 <summary className="course-group-header">
                     <div className="course-group-header-name">{group.name}</div>
                     <div className="course-group-header-right">
-                        <div className="course-group-header-avg">{`${(100 * group.avg).toFixed(2)}%`}</div>
+                        <div className="course-group-header-avg">{`${(100 * group.avgWithDrop(this.props.course.getScheme(this.props.course.maxSchemeInd)?.getWeight(group.name)?.drop || 0)).toFixed(2)}%`}</div>
                         <div className="course-group-header-svg" onClick={(e: MouseEvent<HTMLElement>) => e.preventDefault() /* Prevent <summary> from opening */}>
                             <PlusSVG onclick={() => { this.setState({editing: [n, group.gradeCount]}); }} />
                             <TrashSVG deleting={false} onclick={() => this.setState({deleting: [n, -1]})} onclose = {() => {}}/>
