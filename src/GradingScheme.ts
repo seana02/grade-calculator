@@ -1,7 +1,7 @@
 interface Weights {
     [name: string]: {
-        drop: number,
-        weight: number
+        drop: number[],
+        weight: number[]
     },
 }
 
@@ -22,8 +22,8 @@ export default class GradingScheme {
         }
     }
 
-    getWeight(groupName: string): {drop: number, weight: number} {
-        return this._scheme[groupName] || { drop: 0, weight: 0 };
+    getWeight(groupName: string): {drop: number[], weight: number[]} {
+        return this._scheme[groupName] || { drop: [0], weight: [0] };
     }
 
     get weightCount() { return this._scheme.length; }

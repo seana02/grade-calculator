@@ -39,13 +39,15 @@ export default class GradeGroup {
     }
 
     avgWithDrop(drop: number) {
+        if (this._grades.length === 0) { return 0; }
+        else if (this._grades.length <= drop) { return 1; }
         return this.earnedWithDrop(drop) / this.possibleWithDrop(drop) || 0;
     }
     
     possibleWithDrop(drop: number) {
         let ptsPossible = 0;
         [...this._grades.keys()]
-            .sort((a,b) => this._grades[b].ptsEarned - this._grades[a].ptsEarned)
+            .sort((a,b) => this._grades[b].ptsEarned/this._grades[b].ptsPossible - this._grades[a].ptsEarned/this._grades[a].ptsPossible)
             .slice(0, this._grades.length - drop)
             .forEach(i => ptsPossible += this._grades[i].ptsPossible);
         return ptsPossible;
@@ -54,7 +56,7 @@ export default class GradeGroup {
     earnedWithDrop(drop: number) {
         let ptsEarned: number = 0;
         [...this._grades.keys()]
-            .sort((a,b) => this._grades[b].ptsEarned - this._grades[a].ptsEarned)
+            .sort((a,b) => this._grades[b].ptsEarned/this._grades[b].ptsPossible - this._grades[a].ptsEarned/this._grades[a].ptsPossible)
             .slice(0, this._grades.length - drop)
             .forEach(i => ptsEarned += this._grades[i].ptsEarned);
         return ptsEarned;

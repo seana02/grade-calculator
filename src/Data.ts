@@ -8,13 +8,13 @@ export default class Data {
     }
 
     commit() {
-        console.log(this._data);
+        console.log(JSON.stringify({data: this._data}));
         localStorage.data = JSON.stringify({data: this._data});
         //console.log("Dev data not saved");
     }
 
     newSemester(name: string) {
-        this._data.push(new Semester(name, []));
+        this._data.unshift(new Semester(name, []));
         return this.getSemester(this._data.length - 1);
     }
 

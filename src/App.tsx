@@ -95,7 +95,7 @@ class App extends Component<Props, State> {
         this.data.newSemester(document.getElementById("semester-new-name")?.textContent || "");
         this.data.commit();
         this.setState({
-            activeSemester: this.data.semesterCount - 1,
+            activeSemester: 0,
             adding: 0
         });
     }
@@ -235,18 +235,18 @@ function data1() {
     f21.getCourse(0).newGradeGroup("Final Portfolio").newGrade("Final Portfolio", 485, 500);
     f21.getCourse(0).newGradeGroup("Participation").newGrade("Participation", 92, 100);
     f21.getCourse(0).newScheme({
-       "First Week Video": { weight: 5, drop: 0 },
-       "AI Timeline": { weight: 15, drop: 0 },
-       "Film Pitch": { weight: 25, drop: 0 },
-       "Film Trailer": { weight: 25, drop: 0 },
-       "Final Portfolio": { weight: 20, drop: 0 },
-       "Participation": { weight: 10, drop: 0 }
+       "First Week Video": { weight: [5], drop: [0] },
+       "AI Timeline": { weight: [15], drop: [0] },
+       "Film Pitch": { weight: [25], drop: [0] },
+       "Film Trailer": { weight: [25], drop: [0] },
+       "Final Portfolio": { weight: [20], drop: [0] },
+       "Participation": { weight: [10], drop: [0] }
     });
 
     let linhw = f21.newCourse("Linear Algebra w/ Abstract Vector Spaces").newGradeGroup("Homework");
     let linhwlist = [0, 28, 30, 29, 40, 26, 29, 30, 28];
     for (let i = 1; i <= 8; i++) {
-        linhw.newGrade(`HW ${i}`, linhwlist[i], linhwlist[i] == 40 ? 40 : 30);
+        linhw.newGrade(`HW ${i}`, linhwlist[i], linhwlist[i] === 40 ? 40 : 30);
     }
     let linex = f21.getCourse(1).newGradeGroup("Exams");
     linex.newGrade("Exam 1", 98, 100);
@@ -260,15 +260,15 @@ function data1() {
     linexams.newGrade("Exam 4", 98, 100);
     f21.getCourse(1).newGradeGroup("Final").newGrade("Final", 0, 100);
     f21.getCourse(1).newScheme({
-        "Homework": { weight: 10, drop: 0 },
-        "Exams": { weight: 60, drop: 1 },
-        "Exam 4": { weight: 30, drop: 0 },
-        "Final": { weight: 0, drop: 0 }
+        "Homework": { weight: [10], drop: [0] },
+        "Exams": { weight: [60], drop: [1] },
+        "Exam 4": { weight: [30], drop: [0] },
+        "Final": { weight: [0], drop: [0] }
     });
     f21.getCourse(1).newScheme({
-        "Homework": { weight: 0, drop: 0 },
-        "All Exams": { weight: 50, drop: 2 },
-        "Final": { weight: 50, drop: 0 }
+        "Homework": { weight: [0], drop: [0] },
+        "All Exams": { weight: [50], drop: [2] },
+        "Final": { weight: [50], drop: [0] }
     });
 
     let ooppe = f21.newCourse("Intro to OOP").newGradeGroup("Programming Exercises");
@@ -296,11 +296,11 @@ function data1() {
     f21.getCourse(2).newGradeGroup("Final").newGrade("Final Exam", 91, 101);
     f21.getCourse(2).newGradeGroup("Participation").newGrade("Participation", 95, 95);
     f21.getCourse(2).newScheme({
-        "Programming Exercises": { weight: 10, drop: 2 },
-        "Homework": { weight: 20, drop: 1 },
-        "Exams": { weight: 45, drop: 0 },
-        "Final": { weight: 20, drop: 0 },
-        "Participation": { weight: 5, drop: 0 }
+        "Programming Exercises": { weight: [10], drop: [2] },
+        "Homework": { weight: [20], drop: [1] },
+        "Exams": { weight: [45], drop: [0] },
+        "Final": { weight: [20], drop: [0] },
+        "Participation": { weight: [5], drop: [0] }
     });
 
     f21.newCourse("Freshman Leap Seminar").newGradeGroup("StrengthQuest").newGrade("StrengthQuest Assessment", 15, 15);
@@ -318,12 +318,12 @@ function data1() {
     flsp.newGrade("Week 8", 15, 15);
     flsp.newGrade("Week 9", 15, 15);
     f21.getCourse(3).newScheme({
-        "StrengthQuest": { weight: 5, drop: 0 },
-        "Resume": { weight: 15, drop: 0 },
-        "Ethics Reflection": { weight: 10, drop: 0 },
-        "Threads Presentation": { weight: 25, drop: 0 },
-        "Career Reflection": { weight: 25, drop: 0 },
-        "Participation": { weight: 20, drop: 0 }
+        "StrengthQuest": { weight: [5], drop: [0] },
+        "Resume": { weight: [15], drop: [0] },
+        "Ethics Reflection": { weight: [10], drop: [0] },
+        "Threads Presentation": { weight: [25], drop: [0] },
+        "Career Reflection": { weight: [25], drop: [0] },
+        "Participation": { weight: [20], drop: [0] }
     });
 
     return data;
@@ -344,8 +344,8 @@ function data2() {
     mathhw.newGrade("Homework 4", 9, 10);
     mathhw.newGrade("Homework 5", 10, 10);
     first.getCourse(0).newScheme({
-        "Exams": { drop: 0, weight: 2 },
-        "Homework": { drop: 1, weight: 1 },
+        "Exams": { drop: [0], weight: [2] },
+        "Homework": { drop: [1], weight: [1] },
     });
     let englProj = first.newCourse("Engl 101").newGradeGroup("Projects");
     englProj.newGrade("Project 1", 88, 100);

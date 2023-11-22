@@ -55,6 +55,7 @@ export default class GradeDetails extends Component<GDProps, GDState> {
     }
 
     render() {
+        let finalAverage = (this.props.course.grade * 100).toFixed(2);
         let content = [];
 
         for (let i = 0; i < this.props.course.groupCount; i++) {
@@ -73,7 +74,7 @@ export default class GradeDetails extends Component<GDProps, GDState> {
                 <div id="course-header">
                     {this.props.course.name}
                     <div className="course-header-grade">
-                        {(this.props.course.grade * 100).toFixed(2) + "%"}
+                        {`${finalAverage}%`}
                     </div>
                     <div className="course-header-svg">
                         <PasteSVG onclick={() => this.setState({activeCourseButton : 4})} />
@@ -144,13 +145,17 @@ export default class GradeDetails extends Component<GDProps, GDState> {
             let sch = this.props.course.getScheme(this.state.scheme);
             let keys = this.props.course.getSchemeKeys(this.state.scheme);
             for (let i = 0; i < keys.length; i++) {
-                content.push(
-                    <div className="course-scheme-info-menu-text course-scheme-info-menu-row">
-                        <div id={`scheme-${i}-group`} className="editable" contentEditable={true}>{keys[i]}</div>
-                        <div id={`scheme-${i}-weight`} className="editable" contentEditable={true}>{sch.getWeight(keys[i]).weight}</div>
-                        <div id={`scheme-${i}-drop`} className="editable" contentEditable={true}>{sch.getWeight(keys[i]).drop}</div>
-                    </div>
-                )
+                let w = sch.getWeight(keys[i]);
+                console.log(w.drop);
+                for (let j = 0; j < w.weight.length; j++) {
+                    content.push(
+                        <div className="course-scheme-info-menu-text course-scheme-info-menu-row">
+                            <div id={`scheme-${i}-group`} className="editable" contentEditable={true}>{keys[i]}</div>
+                            <div id={`scheme-${i}-weight`} className="editable" contentEditable={true}>{w.weight[j]}</div>
+                            <div id={`scheme-${i}-drop`} className="editable" contentEditable={true}>{w.drop[j]}</div>
+                        </div>
+                    )
+                }
             }
         }
         for (let i = 0; i < this.state.schemeBlanks || content.length === 0; i++) {
@@ -166,7 +171,7 @@ export default class GradeDetails extends Component<GDProps, GDState> {
             <div className={"course-scheme-info-menu menu" + (this.state.scheme === -1 ? " hidden" : "")}>
                 <div className={"popup-title"}>
                     <div>{`Scheme ${this.state.scheme + 1}`}</div>
-                    <PlusSVG onclick={() => this.setState({schemeBlanks: this.state.schemeBlanks + 1})} />
+                    <PlusSVG onclick={() => this.setState({schemeBlanks: this.state.schemeBlanks ? this.state.schemeBlanks + 1 : 2})} />
                 </div>
                 <div className="course-scheme-info-menu-header course-scheme-info-menu-row">
                     <div className="course-scheme-info-menu-group">Group</div>
@@ -199,9 +204,9 @@ export default class GradeDetails extends Component<GDProps, GDState> {
                             className="editable"
                             contentEditable={true}
                             onKeyDown={e => {
-                                    if (this.badKey(e.key)) {
+                                    if (this.badKey(e.key) && !(e.key.toLowerCase() === 'a' && e.ctrlKey)) {
                                         e.preventDefault();
-                                    } else if (!this.deleteKey(e.key) && (document.getElementById('course-group-grade-edit-menu-grade-right-earned')?.textContent?.length || 0) >= 6) {
+                                    } else if (!this.deleteKey(e.key) && !(e.key.toLowerCase() === 'a' && e.ctrlKey) && (document.getElementById('course-group-grade-edit-menu-grade-right-earned')?.textContent?.length || 0) >= 6) {
                                         e.preventDefault();
                                     }
                                 }
@@ -214,9 +219,10 @@ export default class GradeDetails extends Component<GDProps, GDState> {
                             className="editable"
                             contentEditable={true}
                             onKeyDown={e => {
-                                    if (this.badKey(e.key)) {
+                                    if (this.badKey(e.key) && !(e.key === 'a' && e.ctrlKey)) {
                                         e.preventDefault();
-                                    } else if (!this.deleteKey(e.key) && !e.key.startsWith('Arrow') && (document.getElementById('course-group-grade-edit-menu-grade-right-possible')?.textContent?.length || 0) >= 6) {
+                                    }
+                                    else if (!this.deleteKey(e.key) && !e.key.startsWith('Arrow') && !(e.key === 'a' && e.ctrlKey) && (document.getElementById('course-group-grade-edit-menu-grade-right-possible')?.textContent?.length || 0) >= 6) {
                                         e.preventDefault();
                                     }
                                 }
@@ -306,12 +312,20 @@ export default class GradeDetails extends Component<GDProps, GDState> {
     
     schemeSubmit() {
         let rows = document.getElementsByClassName("course-scheme-info-menu-text");
-        let newScheme: { [name: string]: {weight: number, drop: number}} = {};
+        let newScheme: { [name: string]: {weight: number[], drop: number[]}} = {};
         for (let r of rows) {
-            if (r.children[0].textContent && r.children[1].textContent && r.children[2].textContent) {
-                newScheme[r.children[0].textContent] = {
-                    weight: +r.children[1].textContent,
-                    drop: +r.children[2].textContent
+            let n = r.children[0].textContent;
+            let w = r.children[1].textContent;
+            let d = r.children[2].textContent;
+            if (n && w && d) {
+                if (newScheme[n]) {
+                    newScheme[n].weight.push(+w);
+                    newScheme[n].drop.push(+d);
+                } else {
+                    newScheme[n] = {
+                        weight: [+w],
+                        drop: [+d]
+                    }
                 }
             }
         }
@@ -350,12 +364,22 @@ export default class GradeDetails extends Component<GDProps, GDState> {
             );
         }
 
+        let weightedAvg = 0;
+        let totalWeight = 0;
+        let weights = this.props.course.getScheme(this.props.course.maxSchemeInd)?.getWeight(group.name);
+        if (weights) {
+            for (let i = 0; i < weights.weight.length; i++) {
+                weightedAvg += group.avgWithDrop(weights.drop[i]) * weights.weight[i];
+                totalWeight += weights.weight[i];
+            }
+            weightedAvg /= totalWeight;
+        }
         return (
             <details className="course-group">
                 <summary className="course-group-header">
                     <div className="course-group-header-name">{group.name}</div>
                     <div className="course-group-header-right">
-                        <div className="course-group-header-avg">{`${(100 * group.avgWithDrop(this.props.course.getScheme(this.props.course.maxSchemeInd)?.getWeight(group.name)?.drop || 0)).toFixed(2)}%`}</div>
+                        <div className="course-group-header-avg">{`${(100 * weightedAvg || 100 * group.avgWithDrop(weights?.drop[0] || 0)).toFixed(2)}%`}</div>
                         <div className="course-group-header-svg" onClick={(e: MouseEvent<HTMLElement>) => e.preventDefault() /* Prevent <summary> from opening */}>
                             <PlusSVG onclick={() => { this.setState({editing: [n, group.gradeCount]}); }} />
                             <TrashSVG deleting={false} onclick={() => this.setState({deleting: [n, -1]})} onclose = {() => {}}/>

@@ -49,7 +49,7 @@ export default class Course {
         return this._gradeGroups.splice(index, 1)[0];
     }
 
-    newScheme(sch: {[name: string]: {drop: number, weight: number}}) {
+    newScheme(sch: {[name: string]: {drop: number[], weight: number[]}}) {
         this._schemes.push(new GradingScheme(sch));
     }
 
@@ -117,17 +117,23 @@ export default class Course {
             let sch = this._schemes[this._maxSchemeInd];
             // f = (grade*[sum of weights]-[sum of avg*weights except final category]) / (final category weight) * (total pts possible w/o final + 100) - (total earned without final)
             // f = (grade*[weightSum]-[currGrade]) / (expression) * finalPossible - finalEarned
-            let weightSum = this._gradeGroups.reduce((accu, next) => accu + sch.getWeight(next.name).weight, 0);
+            let weightSum = this._gradeGroups.reduce((accu, next) => accu + sch.getWeight(next.name).weight.reduce((t, n) => t + n, 0), 0);
             let currGrade = 0;
             for (let i = 0; i < this._gradeGroups.length; i++) {
                 if (i === finalIndex) continue;
                 let g = this._gradeGroups[i];
                 let w = sch.getWeight(g.name);
-                currGrade += w.weight * g.avgWithDrop(w.drop);
+                for (let i = 0; i < w.weight.length; i++) {
+                    currGrade += w.weight[i] * g.avgWithDrop(w.drop[i]);
+                }
             }
-            let finalPossible = 100 + this._gradeGroups[finalIndex].possibleWithDrop(sch.getWeight(this._gradeGroups[finalIndex].name).drop);
-            let finalEarned = this._gradeGroups[finalIndex].earnedWithDrop(sch.getWeight(this._gradeGroups[finalIndex].name).drop);
-            return ((grade * weightSum - currGrade) / sch.getWeight(this._gradeGroups[finalIndex].name).weight * finalPossible - finalEarned).toFixed(2);
+            let finalPossible = 0, finalEarned = 0;
+            let d = sch.getWeight(this._gradeGroups[finalIndex].name).drop;
+            for (let i = 0; i < d.length; i++) {
+                finalPossible += 100 + this._gradeGroups[finalIndex].possibleWithDrop(d[i]);
+                finalEarned += this._gradeGroups[finalIndex].earnedWithDrop(d[i]);
+            }
+            return ((grade * weightSum - currGrade) / sch.getWeight(this._gradeGroups[finalIndex].name).weight.reduce((t,n) => t+n, 0) * finalPossible - finalEarned).toFixed(2);
         }
 
         // case when there are no grading schemes added
@@ -160,9 +166,11 @@ export default class Course {
             let totalWeight = 0;
             let weightedScore = 0;
             this._gradeGroups.forEach(g => {
-                let weightInfo = sch.getWeight(g.name) || {weight: 0, drop: 0};
-                weightedScore += g.avgWithDrop(weightInfo.drop) * weightInfo.weight;
-                totalWeight += weightInfo.weight;
+                let weightInfo = sch.getWeight(g.name) || {weight: [0], drop: [0]};
+                for (let i = 0; i < weightInfo.weight.length; i++) {
+                    weightedScore += g.avgWithDrop(weightInfo.drop[i]) * weightInfo.weight[i];
+                    totalWeight += weightInfo.weight[i];
+                }
             });
             if (weightedScore / totalWeight > max) {
                 max = weightedScore/totalWeight;
