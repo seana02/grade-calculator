@@ -43,8 +43,8 @@ function loadExistingData() {
     let obj = JSON.parse(localStorage.data);
     let semesters: Semester[] = [];
 
-    obj.data.forEach((semJson: string) => {
-        semesters.push(regenerateSemester(JSON.stringify(semJson)));
+    obj.data.forEach((semObj: any) => {
+        semesters.push(regenerateSemester(semObj));
     });
 
     return semesters;

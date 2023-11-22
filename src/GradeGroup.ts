@@ -14,7 +14,7 @@ export default class GradeGroup {
         this._grades.forEach(g => grades.push(JSON.stringify(g)));
         return {
             name: this._name,
-            grades: grades
+            grades: this._grades
         };
     }
 
@@ -69,11 +69,9 @@ export default class GradeGroup {
     get name() { return this._name; }
 }
 
-export function regenerateGradeGroup(json: string) {
-    let obj = JSON.parse(json);
-    
+export function regenerateGradeGroup(obj: {grades: any[], name: string}) {
     let grades: Grade[] = [];
-    obj.grades.forEach((gradeJson: string) => grades.push(regenerateGrade(gradeJson)));
+    obj.grades.forEach((gradeObj: any) => grades.push(regenerateGrade(gradeObj)));
 
     return new GradeGroup(obj.name, grades);
 }

@@ -33,7 +33,6 @@ export default class GradingScheme {
     get keys() { return Object.keys(this._scheme); }
 }
 
-export function regenerateScheme(json: string) {
-    let obj = JSON.parse(json);
+export function regenerateScheme(obj: {sch: Weights}) {
     return new GradingScheme(obj.sch);
 }

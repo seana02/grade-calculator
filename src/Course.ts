@@ -21,8 +21,8 @@ export default class Course {
         this._gradeGroups.forEach(g => groups.push(JSON.stringify(g)));
         return {
             name: this._name,
-            schemes: schemes,
-            gradeGroups: groups
+            schemes: this._schemes,
+            gradeGroups: this._gradeGroups
         };
     }
 
@@ -185,14 +185,12 @@ export default class Course {
     get maxSchemeInd() { return this._maxSchemeInd; }
 }
 
-export function regenerateCourse(json: string) {
-    let obj = JSON.parse(json);
-
+export function regenerateCourse(obj: {schemes: any[], gradeGroups: any[], name: string}) {
     let schemes: GradingScheme[] = [];
-    obj.schemes.forEach((schemeJson: string) => schemes.push(regenerateScheme(schemeJson)));
+    obj.schemes.forEach((schemeObj: any) => schemes.push(regenerateScheme(schemeObj)));
 
     let groups: GradeGroup[] = [];
-    obj.gradeGroups.forEach((groupJson: string) => groups.push(regenerateGradeGroup(groupJson)));
+    obj.gradeGroups.forEach((groupObj: any) => groups.push(regenerateGradeGroup(groupObj)));
 
     return new Course(obj.name, schemes, groups);
 }

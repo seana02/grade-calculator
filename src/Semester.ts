@@ -14,7 +14,7 @@ export default class Semester {
         this._courses.forEach(c => courses.push(JSON.stringify(c)));
         return {
             name: this._name,
-            courses: courses
+            courses: this._courses
         };
     }
 
@@ -45,11 +45,10 @@ export default class Semester {
 }
 
 
-export function regenerateSemester(json: string) {
-    let obj = JSON.parse(json);
+export function regenerateSemester(obj: {courses: any[], name: string}) {
 
     let course: Course[] = [];
-    obj.courses.forEach((courseJson: string) => course.push(regenerateCourse(courseJson)));
+    obj.courses.forEach((courseObj: any) => course.push(regenerateCourse(courseObj)));
 
     return new Semester(obj.name, course);
 }

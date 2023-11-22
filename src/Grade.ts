@@ -44,7 +44,6 @@ export default class Grade {
 
 }
 
-export function regenerateGrade(json: string): Grade {
-    let obj = JSON.parse(json);
+export function regenerateGrade(obj: {name: string, ptsEarned: number, ptsPossible: number}): Grade {
     return new Grade(obj.name, obj.ptsEarned, obj.ptsPossible);
 }
