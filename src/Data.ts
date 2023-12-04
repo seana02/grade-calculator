@@ -41,6 +41,7 @@ function loadExistingData() {
     }
 
     let obj = JSON.parse(localStorage.data);
+    if (!obj.data) { return null; }
     let semesters: Semester[] = [];
 
     obj.data.forEach((semObj: any) => {
